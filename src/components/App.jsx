@@ -1,15 +1,14 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
+import React from "react";
+
+import AppRouter from "./app/AppRouter";
 
 const App = () => {
+  return (
+    <div>
+      <AppRouter />
 
-  
-   return (
-      <div>
-       
-         Root
-      </div>
-   )
-}
+    </div>
+  );
+};
 
 export default App;
