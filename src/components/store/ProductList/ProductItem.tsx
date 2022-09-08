@@ -11,7 +11,7 @@ const ProductItem = ({ item }: ProductItemProps) => {
     
       
       <div className="card__image">
-        <img src={item.image} alt={item.title}></img>
+        <img data-src={item.image} alt={item.title}></img>
       </div>
       <h3 className="card__title">{item.title}</h3>
       <span className="card__category">{item.category}</span>

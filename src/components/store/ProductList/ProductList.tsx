@@ -33,7 +33,7 @@ function ProductList() {
 
   return (
     <>
-      ShopList
+  
       {productItems.map((item) => (
         <ProductItem item={item} key={item.id} />
       ))}

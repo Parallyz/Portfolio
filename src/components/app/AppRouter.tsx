@@ -1,11 +1,10 @@
 import  React from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { routes } from "./Router";
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
-      <Link to="/head">Test</Link>
       <Routes>
         {routes.map((route) => (
           <Route

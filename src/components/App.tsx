@@ -6,7 +6,6 @@ import MarketStore from "./store/Store";
 const App = () => {
   return (
     <>
-      <AppRouter />
       <MarketStore/>
     </>
   );
