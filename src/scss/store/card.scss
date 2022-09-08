@@ -1,0 +1,54 @@
+.product {
+   &__card {
+   }
+}
+.card {
+   width: 100%;
+   max-width: 400px;
+   border-radius: 10px;
+
+   overflow: hidden;
+   //&:after {
+   //   content: "";
+   //   z-index: -1;
+   //   position: absolute;
+   //   top: 0;
+   //   right: 0;
+   //   bottom: 0;
+   //   left: 0;
+   //   background: inherit;
+   //   border-radius: inherit;
+   //}
+
+   //&:before {
+   //   content: "";
+   //   z-index: -1;
+   //   position: absolute;
+   //   top: 0;
+   //   right: 0;
+   //   bottom: 0;
+   //   left: 0;
+   //   background: linear-gradient(-45deg, #c6f8ff 0%, #595cff 100%);
+   //   transform: translate3d(0px, 20px, 0) scale(0.95);
+   //   filter: blur(20px);
+   //   opacity: var(0.7);
+   //   transition: opacity 0.3s;
+   //   border-radius: inherit;
+   //}
+
+   &__image {
+      width: 100%;
+      img {
+         max-width: 100%;
+      }
+   }
+
+   &__title {
+   }
+
+   &__category {
+   }
+
+   &__price {
+   }
+}
