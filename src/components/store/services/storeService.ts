@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 
-class StoreService {
+ export class StoreService {
   static async fetchAllProducts() {
     return await axios.get<IShopItem[]>(storeUrl.shopItems);
   }
