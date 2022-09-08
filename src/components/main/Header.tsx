@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { showLoader, hideLoader } from "../../redux/reducers/appReducer";
+import Loader from "../modal/Loader";
 
 import ShopList from "../store/ShopList";
 
@@ -10,8 +11,6 @@ const Header = () => {
   const isLoader = useAppSelector((state) => state.app.isLoader);
 
   useEffect(() => {
-    console.log("Loader");
-
     dispatch(showLoader());
     setTimeout(() => {
       dispatch(hideLoader());
@@ -24,6 +23,7 @@ const Header = () => {
         <nav></nav>
       </header>
       <ShopList />
+     
     </>
   );
 };

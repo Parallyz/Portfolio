@@ -17,7 +17,7 @@ function ShopList() {
   return (
     <>
       ShopList
-      {isLoader && <Loader />}
+     
     </>
   );
 }
