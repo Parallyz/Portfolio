@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { IShopItem } from "../../models/models";
+import { IProductItem } from "../../../models/models";
 
-interface ShopItemProps {
-  item: IShopItem;
+interface ProductItemProps {
+  item: IProductItem;
 }
 
-const ShopItem = (props: ShopItemProps) => {
+const ProductItem = (props: ProductItemProps) => {
   const [details, setDetails] = useState(false);
 
   const btnBgClassName = details ? "black-bg" : "white-bg";
@@ -21,4 +21,4 @@ const ShopItem = (props: ShopItemProps) => {
   );
 };
 
-export default ShopItem;
+export default ProductItem;

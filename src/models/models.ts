@@ -1,5 +1,8 @@
-
-export interface IShopItem {
-   id: number,
-   name:string,
+export interface IProductItem {
+  id: number;
+  title: string;
+  price: string;
+  category: string;
+  description: string;
+  image: string;
 }

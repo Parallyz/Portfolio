@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Modal from "../modal/Modal";
+import Modal from "../../modal/Modal";
 
 function ModalTest() {
   const [value, setValue] = useState("");
