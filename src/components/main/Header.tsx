@@ -1,21 +1,29 @@
-import React from "react";
-import Loader from "../modal/Loader";
-import Modal from "../modal/Modal";
-import ModalTest from "../store/CreateItem";
+import React, { useEffect } from "react";
+
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { showLoader, hideLoader } from "../../redux/reducers/appReducer";
+
+import ShopList from "../store/ShopList";
 
 const Header = () => {
+  const dispatch = useAppDispatch();
+  const isLoader = useAppSelector((state) => state.app.isLoader);
+
+  useEffect(() => {
+    console.log("Loader");
+
+    dispatch(showLoader());
+    setTimeout(() => {
+      dispatch(hideLoader());
+    }, 5000);
+  }, []);
+
   return (
     <>
       <header>
-        Header
         <nav></nav>
       </header>
-
-      {/*<Modal title="Some title">
-        <div>qwe</div>
-      </Modal>*/}
-      {/*<ModalTest />*/}
-      <Loader/>
+      <ShopList />
     </>
   );
 };
