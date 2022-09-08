@@ -7,7 +7,6 @@ interface ModalProps {
 }
 
 function Modal({ children, title, onClose }: ModalProps) {
-   
   const dontCloseHandler = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
   };

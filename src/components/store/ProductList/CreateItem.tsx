@@ -13,12 +13,10 @@ function ModalTest() {
     event.preventDefault();
   };
 
- 
-   
   return (
     <>
       {modal && (
-        <Modal title="Title" onClose={()=> setModal(false)}>
+        <Modal title="Title" onClose={() => setModal(false)}>
           <form onSubmit={submitHandler}>
             <input
               type="text"

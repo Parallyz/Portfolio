@@ -5,18 +5,17 @@ interface ProductItemProps {
   item: IProductItem;
 }
 
-const ProductItem = (props: ProductItemProps) => {
-  const [details, setDetails] = useState(false);
-
-  const btnBgClassName = details ? "black-bg" : "white-bg";
-
-  const btnClasses = ["btg-white input black-input", btnBgClassName];
-
+const ProductItem = ({ item }: ProductItemProps) => {
   return (
-    <div>
-      {details && (
-        <button className={btnClasses.join(" ")}>Show Details</button>
-      )}
+    <div className="product__card card">
+    
+      
+      <div className="card__image">
+        <img src={item.image} alt={item.title}></img>
+      </div>
+      <h3 className="card__title">{item.title}</h3>
+      <span className="card__category">{item.category}</span>
+      <span className="card__price">{item.price}</span>
     </div>
   );
 };

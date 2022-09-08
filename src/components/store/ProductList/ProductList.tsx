@@ -17,7 +17,9 @@ function ProductList() {
     console.log("Prod list fetching");
 
     const data = await StoreService.fetchAllProducts();
+
     SetproductItems(data.data);
+    dispatch(hideLoader());
   });
 
   const isLoader = useAppSelector((state) => state.app.isLoader);
@@ -27,14 +29,13 @@ function ProductList() {
 
     dispatch(showLoader());
     fetchProducts();
-    dispatch(hideLoader());
   }, []);
 
   return (
     <>
       ShopList
       {productItems.map((item) => (
-        <ProductItem item={item} key={item.id}/>
+        <ProductItem item={item} key={item.id} />
       ))}
     </>
   );
