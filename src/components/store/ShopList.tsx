@@ -11,7 +11,7 @@ function ShopList() {
     });
   }, []);
 
-  return <div></div>;
+  return <></>;
 }
 
 export default ShopList;
