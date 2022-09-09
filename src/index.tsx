@@ -6,6 +6,7 @@ import App from "./components/App";
 import { store } from "./redux/store";
 
 import "./scss/main.scss";
+import "./index.css";
 
 import AppRouter from "./components/app/AppRouter";
 
@@ -16,6 +17,5 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <AppRouter />
-    <App />
   </Provider>
 );

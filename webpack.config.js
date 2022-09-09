@@ -2,6 +2,8 @@ const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 module.exports = {
   mode: "development",
   entry: ["@babel/polyfill", "./src/index.tsx"],
@@ -18,6 +20,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ template: "./src/index.html" }),
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin(),
   ],
 
   devServer: {
@@ -50,8 +53,10 @@ module.exports = {
           },
         },
       },
-     
-      
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
+      },
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
         use: ["file-loader"],
