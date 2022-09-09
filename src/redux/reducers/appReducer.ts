@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type AppSliceState = {
-  isLoader: boolean;
+ 
   isModal: boolean;
   counter: number;
   error: string;
 };
 
 const initialState: AppSliceState = {
-  isLoader: false,
+ 
   isModal: false,
   counter: 0,
   error: "",
@@ -24,12 +24,7 @@ const AppSlice = createSlice({
     hideModal(state) {
       state.isModal = false;
     },
-    showLoader(state) {
-      state.isLoader = true;
-    },
-    hideLoader(state) {
-      state.isLoader = false;
-    },
+   
     addCount(state, action: PayloadAction<number>) {
       state.counter += action.payload;
     },
@@ -39,6 +34,6 @@ const AppSlice = createSlice({
   },
 });
 
-export const { showModal, hideModal, showLoader, hideLoader } =
+export const { showModal, hideModal} =
   AppSlice.actions;
 export default AppSlice.reducer;
