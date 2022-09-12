@@ -2,6 +2,7 @@ const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+
 module.exports = {
   mode: "development",
   entry: ["@babel/polyfill", "./src/index.tsx"],
@@ -18,6 +19,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ template: "./src/index.html" }),
     new CleanWebpackPlugin(),
+  
   ],
 
   devServer: {
@@ -51,7 +53,6 @@ module.exports = {
         },
       },
      
-      
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
         use: ["file-loader"],

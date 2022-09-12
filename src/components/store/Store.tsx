@@ -5,13 +5,12 @@ import Loader from "../modal/Loader";
 import ProductList from "./ProductList/ProductList";
 function MarketStore() {
 
-   const isLoader = useAppSelector(store => store.app.isLoader);
 
   return (
     <>
         <Header />
         <ProductList />
-        {isLoader && <Loader/>}
+      
     </>
   );
 }

@@ -2,7 +2,7 @@ import { IProductItem } from "../../../models/models";
 import axios from "axios";
 import { storeUrl } from "../../../models/path";
 
-export class StoreService {
+export class storeApi {
   public static async fetchAllProducts() {
     return await axios.get(storeUrl.products);
   }
