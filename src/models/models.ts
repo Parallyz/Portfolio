@@ -1,4 +1,4 @@
- interface ProductItem {
+ export interface IProductItem {
   id: number;
   title: string;
   price: string;
@@ -7,5 +7,8 @@
   image: string;
 }
 
-
-export type IProductItem = Partial<ProductItem>;
+export interface ServerResponse<T> {
+  total_count: number;
+  incomplete_results: boolean;
+  items: T[];
+}

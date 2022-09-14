@@ -34,6 +34,5 @@ const AppSlice = createSlice({
   },
 });
 
-export const { showModal, hideModal} =
-  AppSlice.actions;
-export default AppSlice.reducer;
+export const appActions = AppSlice.actions;
+export const appReducer = AppSlice.reducer;

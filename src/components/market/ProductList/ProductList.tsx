@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../../redux/store";
 
 import { IProductItem } from "../../../models/models";
-import { fetchProducts } from "../../../redux/reducers/storeReducer";
+import { fetchProducts } from "../../../redux/market/API/market.api";
 import Loader from "../../modal/Loader";
 
 import ProductItem from "./ProductItem";

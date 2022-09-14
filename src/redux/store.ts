@@ -1,22 +1,18 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import appReducer from "./reducers/appReducer";
-import storeReducer from "./reducers/storeReducer";
-import { TypedUseSelectorHook, useSelector, useDispatch } from "react-redux";
-
-
-
-const rootReducer = combineReducers({
-  app: appReducer,
-  store: storeReducer,
-});
+import { configureStore } from "@reduxjs/toolkit";
+import { marketApi } from "./market/API/market.api";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import { appReducer } from "./market/Slice/app.slice";
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    [marketApi.reducerPath]: marketApi.reducer,
+    //? slice reducer inport
+    app: appReducer,
+  },
+  //middleware: (getDefaultMiddleware) =>
+  //  getDefaultMiddleware().concat(marketApi.middleware),
 });
 
+setupListeners(store.dispatch);
+
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-
-
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-export const useAppDispatch = () => useDispatch<AppDispatch>();

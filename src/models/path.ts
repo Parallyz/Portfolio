@@ -1,3 +1,3 @@
 export enum storeUrl {
-   products = "https://fakestoreapi.com/products"
+   products = "https://fakestoreapi.com/"
 }
