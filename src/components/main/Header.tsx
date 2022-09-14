@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import Loader from "../modal/Loader";
 
 

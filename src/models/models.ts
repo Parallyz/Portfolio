@@ -1,4 +1,4 @@
-export interface IProductItem {
+ interface ProductItem {
   id: number;
   title: string;
   price: string;
@@ -6,3 +6,6 @@ export interface IProductItem {
   description: string;
   image: string;
 }
+
+
+export type IProductItem = Partial<ProductItem>;
