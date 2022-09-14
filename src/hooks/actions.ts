@@ -1,4 +1,4 @@
-import { appActions } from '../redux/market/Slice/app.slice';
+import { appActions } from '../redux/app/app.slice';
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 
