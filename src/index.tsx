@@ -6,7 +6,6 @@ import { store } from "./js/redux/store";
 
 import "~/assets/scss/main.scss";
 
-
 import AppRouter from "./js/components/router/AppRouter";
 
 const root = ReactDOM.createRoot(

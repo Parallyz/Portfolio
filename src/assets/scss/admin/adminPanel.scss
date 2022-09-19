@@ -1,24 +1,26 @@
 .admin {
+	font-family: "Mulish";
+	height: 300px;
+	width: 300px;
+	background: url("/src/assets/img/admin/test.jpg") 50% / cover no-repeat;
 
-		&__sidemenu {
-		}
+	&__sidemenu {
+	}
 }
 .sidemenu {
+	&__header {
+	}
 
-		&__header {
-		}
-
-		&__list {
-		}
+	&__list {
+	}
 }
 .header {
+	&__container {
+	}
 
-		&__container {
-		}
+	&__img {
+	}
 
-		&__img {
-		}
-
-		&__title {
-		}
+	&__title {
+	}
 }

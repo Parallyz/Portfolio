@@ -2,6 +2,8 @@ const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const devMode = process.env.NODE_ENV !== "production";
 
 const PATHS = {
   src: path.join(__dirname, "./src"),
@@ -17,7 +19,7 @@ module.exports = {
   entry: ["@babel/polyfill", `${PATHS.src}/index.tsx`],
 
   output: {
-    filename: "bundle.js",
+    filename: `${PATHS.assets}js/[name].[contenthash].js`,
     path: PATHS.dist,
     publicPath: "/",
   },
@@ -47,15 +49,6 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
   ],
-
-  //devServer: {
-  //  port: 4000,
-  //  historyApiFallback: true,
-  //  static: {
-  //    directory: path.join(__dirname, "img"),
-  //    publicPath: "./src/img/",
-  //  },
-  //},
   devServer: {
     static: {
       directory: PATHS.dist,
@@ -66,32 +59,52 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        use: "ts-loader",
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.s[ac]ss$/i,
-        use: ["style-loader", "css-loader", "sass-loader"],
-      },
-      {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: "file-loader",
-      },
-      {
-        test: /\.m?js$/,
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env"],
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+              "@babel/preset-typescript",
+            ],
           },
         },
       },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          devMode ? "style-loader" : MiniCssExtractPlugin.loader,
+
+          "css-loader",
+          "sass-loader",
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+           
+            },
+          },
+        ],
+      },
 
       {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: ["file-loader"],
+        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+        
+            },
+          },
+        ],
       },
     ],
   },

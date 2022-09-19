@@ -1,15 +1,25 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { publicRoutes } from "./Router";
+import { adminPath } from "../../models/models";
+import { AdminSideMenu } from "../admin/SideMenu/AdminSideMenu";
+import { adminRoutes, publicRoutes } from "./Router";
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
-      <Routes>
+      {/*<Routes>
         {publicRoutes.map((route) => (
           <Route key={route.path} element={route.element} path={route.path} />
         ))}
-      </Routes>
+      </Routes>*/}
+
+      <AdminSideMenu>
+        <Routes>
+          {adminRoutes.map((route: adminPath) => (
+            <Route key={route.path} path={route.path} element={route.element} />
+          ))}
+        </Routes>
+      </AdminSideMenu>
     </BrowserRouter>
   );
 };

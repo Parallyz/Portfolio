@@ -1,7 +1,7 @@
 @font-face {
    font-family: Mulish;
    font-display: swap;
-   src: url("../fonts/Mulish-Bold.ttf") format("ttf");
+   src: url("/src/assets/fonts/Mulish-Bold.ttf") format("ttf");
    font-weight: 700;
    font-style: normal;
 }
@@ -9,14 +9,16 @@
 @font-face {
    font-family: Mulish;
    font-display: swap;
-   src: url("../fonts/Mulish-Regular.ttf") format("ttf");
+   src: url("/src/assets/fonts/Mulish-Regular.ttf") format("ttf");
    font-weight: 400;
    font-style: normal;
 }
 @font-face {
    font-family: Mulish;
    font-display: swap;
-   src: url("../fonts/Mulish-SemiBold.ttf") format("ttf");
+   src: url("/src/assets/fonts/Mulish-SemiBold.ttf") format("ttf");
    font-weight: 600;
    font-style: normal;
 }
+
+//@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
