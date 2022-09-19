@@ -7,8 +7,8 @@ export function AdminSideMenu() {
       <div className="sidemenu__header header">
         <div className="header__container">
           <div className="header__img">
-            <img src="../../../img/admin/logo.png" />
-            <img src="../../../img/admin/svg/agent.svg" />
+            <img src="./assets/img/admin/logo.png" />
+            <img src="./assets/img/admin/svg/agent.svg" />
           </div>
           <div className="header__title">Admin Dashboard</div>
         </div>
