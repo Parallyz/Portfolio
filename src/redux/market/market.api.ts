@@ -1,12 +1,13 @@
 import { IProductItem, ServerResponse } from "../../models/models";
-import { storeUrl } from "../../models/path";
+
+import { URLs } from "../../models/path";
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const marketApi = createApi({
   reducerPath: "market/api",
   baseQuery: fetchBaseQuery({
-    baseUrl: storeUrl.products,
+    baseUrl: URLs.products,
   }),
   refetchOnFocus: true,
   endpoints: (build) => ({
@@ -22,12 +23,13 @@ export const marketApi = createApi({
       transformResponse: (response: ServerResponse<IProductItem>) =>
         response.items,
     }),
-    getProducts: build.query<IProductItem[],void>({
+    getProducts: build.query<IProductItem[], void>({
       query: () => ({
-        url: `products`
+        url: `products`,
       }),
     }),
   }),
 });
 
-export const { useLazySearchProductsQuery,useLazyGetProductsQuery } = marketApi;
+export const { useLazySearchProductsQuery, useLazyGetProductsQuery } =
+  marketApi;

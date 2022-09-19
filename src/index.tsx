@@ -8,7 +8,7 @@ import { store } from "./redux/store";
 import "./scss/main.scss";
 
 
-import AppRouter from "./components/app/AppRouter";
+import AppRouter from "./components/router/AppRouter";
 
 const root = ReactDOM.createRoot(
   document.querySelector("#root") as HTMLElement

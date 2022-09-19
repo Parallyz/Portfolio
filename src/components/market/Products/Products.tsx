@@ -1,35 +1,23 @@
 import React, { useEffect, useState } from "react";
 
-
-
 import { IProductItem } from "../../../models/models";
 import { useLazyGetProductsQuery } from "../../../redux/market/market.api";
 
 import Loader from "../../modal/Loader";
 
 import ProductItem from "./ProductItem";
+import { ProductList } from "./ProductList";
 
-function ProductList() {
-  
-  const [fetchProducts,{isError,isLoading,data: productList}] = useLazyGetProductsQuery();
-
-
- 
+function Products() {
+  const [fetchProducts, { isError, isLoading, data: productList }] =
+    useLazyGetProductsQuery();
 
   useEffect(() => {
     console.log("Prod list effect");
     fetchProducts();
   }, []);
 
-  return (
-    <>
-      {isLoading && <Loader />}
-
-      {productList?.map((item) => (
-        <ProductItem item={item} key={item.id} />
-      ))}
-    </>
-  );
+  return <>{isLoading ? <Loader /> : <ProductList list={productList} />}</>;
 }
 
-export default ProductList;
+export default Products;

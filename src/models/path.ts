@@ -1,3 +1,3 @@
-export enum storeUrl {
-   products = "https://fakestoreapi.com/"
+export namespace URLs {
+   export const products: string = "https://fakestoreapi.com/";
 }
