@@ -28,7 +28,9 @@ module.exports = {
     extensions: [".js", ".ts", ".tsx"],
     alias: {
       "~": PATHS.src, // Example: import Dog from "~/assets/img/dog.jpg"
-      "@": `${PATHS.src}/js`, // Example: import Sort from "@/utils/sort.js"
+      //"@": `${PATHS.src}/js`, // Example: import Sort from "@/utils/sort.js"
+      img: `${PATHS.src}/${PATHS.assets}img`,
+      fnt: `${PATHS.src}/${PATHS.assets}fonts`,
     },
   },
 
@@ -74,12 +76,7 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          devMode ? "style-loader" : MiniCssExtractPlugin.loader,
-
-          "css-loader",
-          "sass-loader",
-        ],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
@@ -88,7 +85,6 @@ module.exports = {
             loader: "file-loader",
             options: {
               name: "[name].[ext]",
-           
             },
           },
         ],
@@ -101,7 +97,6 @@ module.exports = {
             loader: "file-loader",
             options: {
               name: "[name].[ext]",
-        
             },
           },
         ],
