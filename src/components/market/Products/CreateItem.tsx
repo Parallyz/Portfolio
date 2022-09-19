@@ -20,7 +20,7 @@ function ModalTest() {
           <form onSubmit={submitHandler}>
             <input
               type="text"
-              className="border py-2 px-4 mb-2 w-full outline-0"
+              className=""
               placeholder="Enter product title..."
               // value={value}
               //  onChange={changeHandler}

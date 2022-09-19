@@ -1,5 +1,3 @@
-# Created by https://www.toptal.com/developers/gitignore/api/react,visualstudiocode
-# Edit at https://www.toptal.com/developers/gitignore?templates=react,visualstudiocode
 
 ### react ###
 .DS_*
@@ -11,7 +9,7 @@ logs
 node_modules
 bower_components
 
-*.sublime*
+
 
 psd
 thumb
@@ -42,4 +40,5 @@ sketch
 # Ignore code-workspaces
 *.code-workspace
 
-# End of https://www.toptal.com/developers/gitignore/api/react,visualstudiocode
+test
+dist

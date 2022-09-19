@@ -1,10 +1,10 @@
-
-
-import  React from 'react';
+import React from "react";
+import { AdminSideMenu } from "./SideMenu/AdminSideMenu";
 
 export function AdminPanel() {
-   return (
-      <>
-      </>
-   )
+  return (
+    <div className="admin">
+      <AdminSideMenu />
+    </div>
+  );
 }

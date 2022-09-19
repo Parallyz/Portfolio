@@ -8,7 +8,6 @@ interface ProductItemProps {
 const ProductItem = ({ item }: ProductItemProps) => {
   return (
     <div className="product__card card">
-  
       <div className="card__image">
         <img src={item.image} alt={item.title}></img>
       </div>

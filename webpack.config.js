@@ -19,13 +19,18 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ template: "./src/index.html" }),
     new CleanWebpackPlugin(),
-  
   ],
-
-  devServer: {
-    port: 4000,
-    historyApiFallback: true,
+  optimization: {
+    minimize: true,
   },
+  //devServer: {
+  //  port: 4000,
+  //  historyApiFallback: true,
+  //  static: {
+  //    directory: path.join(__dirname, "img"),
+  //    publicPath: "./src/img/",
+  //  },
+  //},
 
   module: {
     rules: [
@@ -52,7 +57,7 @@ module.exports = {
           },
         },
       },
-     
+
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
         use: ["file-loader"],
