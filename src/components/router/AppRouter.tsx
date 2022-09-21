@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { adminPath } from "../../models/models";
-import { AdminSideMenu } from "../admin/SideMenu/AdminSideMenu";
+import { AdminSideMenu } from "../admin/AdminSideMenu";
 import { adminRoutes, publicRoutes } from "./Router";
 
 

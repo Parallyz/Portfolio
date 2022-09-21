@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
-    "@react-buddy/ide-toolbox": "^2.2.1",
     "@reduxjs/toolkit": "^1.8.5",
     "axios": "^0.27.2",
     "react": "^18.2.0",

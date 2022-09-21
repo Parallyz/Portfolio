@@ -10,7 +10,6 @@ import Overview from "../admin/pages/overview/Overview";
 import Settings from "../admin/pages/settings/Settings";
 import Tickets from "../admin/pages/tickets/Tickets";
 
-const PATH_SVG = "/assets/img/admin/svg/";
 export const publicRoutes = [
   { path: "/", element: <App /> },
   { path: "/head", element: <Header /> },
@@ -32,21 +31,23 @@ export const adminRoutes: adminPath[] = [
   {
     path: "/",
     element: <Overview />,
-    name: "overview",
+    name: "Overview",
     icon: imgOverview,
+  },
+
+  {
+    path: "/tickets",
+    element: <Tickets />,
+    name: "Tickets",
+    icon: imgTickets,
   },
   {
     path: "/settings",
     element: <Settings />,
-    name: "settings",
+    name: "Settings",
     icon: imgSetting,
   },
-  {
-    path: "/tickets",
-    element: <Tickets />,
-    name: "tickets",
-    icon: imgTickets,
-  },
-
   { path: "*", element: <ErrorPage /> },
 ];
+
+
