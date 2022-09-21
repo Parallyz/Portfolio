@@ -4,6 +4,7 @@ import { adminPath } from "../../models/models";
 import { AdminSideMenu } from "../admin/SideMenu/AdminSideMenu";
 import { adminRoutes, publicRoutes } from "./Router";
 
+
 const AppRouter = () => {
   return (
     <BrowserRouter>

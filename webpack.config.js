@@ -1,72 +1,38 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-
-const mode = process.env.NODE_ENV || "development";
-const devMode = mode === "development";
-const target = devMode ? "web" : "browserslist";
-const devtool = devMode ? "source-map" : undefined;
-
-const PATHS = {
-  src: path.join(__dirname, "./src"),
-  dist: path.join(__dirname, "./dist"),
-  assets: "assets/",
-};
 
 module.exports = {
-  mode,
-  target,
-  devtool,
-  externals: {
-    paths: PATHS,
-  },
-  entry: ["@babel/polyfill", `${PATHS.src}/index.tsx`],
+  mode: "development",
+  entry: ["@babel/polyfill", path.resolve(__dirname, "src/index.tsx")],
 
   output: {
-    filename: "[name].[contenthash].js",
-    path: PATHS.dist,
-
-    /*
-      publicPath: '/' - relative path for dist folder (js,css etc)
-      publicPath: './' (dot before /) - absolute path for dist folder (js,css etc)
-    */
-    publicPath: "/",
+    path: path.resolve(__dirname, "dist"),
+    filename: "[name][contenthash].js",
+    clean: true,
+    assetModuleFilename: "[name][ext]",
   },
 
+  devtool: "source-map",
   resolve: {
     extensions: [".js", ".ts", ".tsx", ".scss"],
-    alias: {
-      "~": PATHS.src,
-      "@": `${PATHS.src}/js`,
-    },
   },
 
   plugins: [
-    new HtmlWebpackPlugin({ template: `${PATHS.src}/index.html` }),
-    new MiniCssExtractPlugin({
-      filename: `${PATHS.assets}css/[name].[contenthash].css`,
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        // Images:
-        {
-          from: `${PATHS.src}/${PATHS.assets}img`,
-          to: `${PATHS.assets}img`,
-        },
-        // Fonts:
-        {
-          from: `${PATHS.src}/${PATHS.assets}fonts`,
-          to: `${PATHS.assets}fonts`,
-        },
-      ],
+    new HtmlWebpackPlugin({
+      title: "Webpack App",
+      filename: "index.html",
+      template: "src/index.html",
     }),
   ],
   devServer: {
+    port: 8081,
     open: true,
     hot: true,
-    port: 8081,
+    compress: true,
+    historyApiFallback: true,
+    static: {
+      directory: path.resolve(__dirname, "dist"),
+    },
   },
   module: {
     rules: [
@@ -84,55 +50,10 @@ module.exports = {
           },
         },
       },
+   
       {
-        test: /\.(c|sa|sc)ss$/i,
-        use: [
-          devMode ? "style-loader" : MiniCssExtractPlugin.loader,
-          "css-loader",
-          {
-            loader: "postcss-loader",
-            options: {
-              postcssOptions: {
-                plugins: [require("postcss-preset-env")],
-              },
-            },
-          },
-          "sass-loader",
-        ],
-      },
-
-      {
-        test: /\.(jpe?g|png|webp|gif|svg)$/i,
-        use: [
-          {
-            loader: "image-webpack-loader",
-            options: {
-              mozjpeg: {
-                progressive: true,
-              },
-              optipng: {
-                enabled: false,
-              },
-              pngquant: {
-                quality: [0.65, 0.9],
-                speed: 4,
-              },
-              gifsicle: {
-                interlaced: false,
-              },
-              webp: {
-                quality: 75,
-              },
-            },
-          },
-        ],
-        type: "asset/resource",
-      },
-
-      {
-        test: /\.(woff2?|ttf)?$/i,
-
-        type: "asset/resource",
+        test: /\.scss$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.m?js$/i,
@@ -143,6 +64,16 @@ module.exports = {
             presets: ["@babel/preset-env"],
           },
         },
+      },
+
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
+      },
+
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
       },
     ],
   },
