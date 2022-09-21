@@ -1,0 +1,37 @@
+body {
+    font-family: Roboto;
+    line-height: 1.2;
+    color: $color-gray-22;
+
+    &.--fixed, &.--popup {
+        overflow: hidden;
+    }
+}
+
+.container {
+    max-width: 1220px;
+    width: 100%;
+    margin: 0 auto;
+    padding:  0 toEm(25);
+
+    &--mob-nav {
+      
+        display: flex;
+        flex-direction: column;
+        gap: toEm(30);
+        padding: toEm(30) toEm(25);
+    }
+
+    @media screen and (max-width: $bp-sm) {
+        padding: {
+            left: toEm(15);
+            right: toEm(15);
+        }
+
+        &--mob-nav {
+            padding: toEm(30) toEm(15);
+        }
+    }
+}
+
+

@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --open ",
-    "build": "webpack --config build/webpack.build.conf.js"
+    "start": "webpack serve --open",
+    "build-dev": "webpack",
+    "build-prod": "webpack --node-env=production",
+    "clear": "rd /s /q dist"
   },
   "author": "",
   "license": "ISC",
@@ -29,6 +32,11 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
+    "image-webpack-loader": "^8.1.0",
+    "mini-css-extract-plugin": "^2.6.1",
+    "postcss": "^8.4.16",
+    "postcss-loader": "^7.0.1",
+    "postcss-preset-env": "^7.8.2",
     "sass": "^1.54.8",
     "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
