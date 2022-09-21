@@ -1,12 +1,13 @@
 import React from "react";
 
-import AppRouter from "./app/AppRouter";
-import MarketStore from "./store/Store";
+import AppRouter from "./router/AppRouter";
+import MarketStore from "./market/Market";
 
 const App = () => {
   return (
     <>
-      <MarketStore/>
+      {/*<MarketStore/>*/}
+  
     </>
   );
 };

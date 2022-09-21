@@ -1,0 +1,104 @@
+.admin {
+	display: flex;
+	//background: url("../img/admin/test.jpg") 50% / cover no-repeat;
+	&__sidemenu {
+	}
+	&__page {
+		padding-left: toRem(285);
+	}
+	&__container {
+		padding: toRem(30);
+	}
+}
+.sidemenu {
+	flex: 0 0 toRem(255);
+	padding: 0 toRem(32);
+	position: fixed;
+	background-color: $color-gray;
+	height: 100vh;
+	color: $color-gray-80;
+
+	&__header {
+		padding: toRem(37) 0;
+		font-weight: 700;
+		font-size: 19px;
+		line-height: 24px;
+	}
+
+	&__link {
+		&:focus,
+		&:hover,
+		&:visited,
+		&:link,
+		&:active {
+			text-decoration: none;
+			color: $color-gray-90;
+		}
+		display: flex;
+		align-items: center;
+		gap: 20px;
+
+		width: calc(100% + 2 * toRem(32));
+		position: relative;
+		left: calc(-1 * toRem(32));
+		padding: toRem(18) toRem(32);
+
+		&--active,
+		&:hover {
+			background-color: $color-gray-95;
+			position: relative;
+			color: $color-gray-70 !important;
+
+			&:before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 1;
+				width: 5px;
+				height: 100%;
+				background-color: $color-gray-70;
+			}
+			img {
+				filter: invert(92%) sepia(79%) saturate(6668%) hue-rotate(179deg) brightness(102%) contrast(101%);
+			}
+		}
+	}
+
+	&__sub-list {
+		position: relative;
+		&::before {
+			content: "";
+			display: block;
+			width: calc(100% + 2 * toRem(32));
+			left: calc(-1 * toRem(32));
+			position: relative;
+			height: 1px;
+			opacity: 0.06;
+			margin: toRem(16) 0;
+			background-color: $color-gray-60;
+		}
+	}
+
+	&__list {
+	}
+
+	&__item {
+		font-size: 16px;
+		line-height: 20px;
+		position: relative;
+	}
+
+	&__img {
+		img {
+			filter: invert(63%) sepia(13%) saturate(307%) hue-rotate(194deg) brightness(101%) contrast(87%);
+		}
+	}
+}
+.header {
+	&__container {
+		display: flex;
+		gap: 20px;
+		align-items: center;
+	}
+}

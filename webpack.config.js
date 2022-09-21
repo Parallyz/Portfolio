@@ -1,50 +1,63 @@
 const path = require("path");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
 
 module.exports = {
   mode: "development",
-  entry: ["@babel/polyfill", "./src/index.tsx"],
+  entry: ["@babel/polyfill", path.resolve(__dirname, "src/index.tsx")],
 
   output: {
-    filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
+    filename: "[name][contenthash].js",
+    clean: true,
+    assetModuleFilename: "[name][ext]",
   },
 
+  devtool: "source-map",
   resolve: {
-    extensions: [".js", ".ts", ".tsx"],
+    extensions: [".js", ".ts", ".tsx", ".scss"],
   },
 
   plugins: [
-    new HtmlWebpackPlugin({ template: "./src/index.html" }),
-    new CleanWebpackPlugin(),
-  
+    new HtmlWebpackPlugin({
+      title: "Webpack App",
+      filename: "index.html",
+      template: "src/index.html",
+    }),
   ],
-
   devServer: {
-    port: 4000,
+    port: 8081,
+    open: true,
+    hot: true,
+    compress: true,
     historyApiFallback: true,
+    static: {
+      directory: path.resolve(__dirname, "dist"),
+    },
   },
-
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        use: "ts-loader",
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+              "@babel/preset-typescript",
+            ],
+          },
+        },
       },
+   
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.scss$/,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
-        test: /\.(jpg|jpeg|png|svg)/,
-        use: ["file-loader"],
-      },
-      {
-        test: /\.m?js$/,
-        exclude: /node_modules/,
+        test: /\.m?js$/i,
+        exclude: /(node_modules|bower_components)/,
         use: {
           loader: "babel-loader",
           options: {
@@ -52,10 +65,15 @@ module.exports = {
           },
         },
       },
-     
+
       {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: ["file-loader"],
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
+      },
+
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
       },
     ],
   },

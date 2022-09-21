@@ -1,0 +1,10 @@
+@import './_mixins/font-face';
+
+
+@include font-face('Mulish', '../fonts/Mulish-Regular', normal, normal);
+@include font-face('Mulish', '../fonts/Mulish-SemiBold', 600, normal);
+@include font-face('Mulish', '../fonts/Mulish-Bold', 700, normal);
+
+
+
+//@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
