@@ -9,6 +9,7 @@ import { adminPath } from "../../models/models";
 import Overview from "../admin/pages/overview/Overview";
 import Settings from "../admin/pages/settings/Settings";
 import Tickets from "../admin/pages/tickets/Tickets";
+import Users from "../admin/pages/users/Users";
 
 export const publicRoutes = [
   { path: "/", element: <App /> },
@@ -26,10 +27,11 @@ export const privateRoutes = [
 import imgSetting from "../../assets/img/admin/svg/settings.svg";
 import imgOverview from "../../assets/img/admin/svg/overview.svg";
 import imgTickets from "../../assets/img/admin/svg/tickets.svg";
+import imgUsers from "../../assets/img/admin/svg/contacts.svg";
 
 export const adminRoutes: adminPath[] = [
   {
-    path: "/",
+    path: "/overview",
     element: <Overview />,
     name: "Overview",
     icon: imgOverview,
@@ -42,11 +44,18 @@ export const adminRoutes: adminPath[] = [
     icon: imgTickets,
   },
   {
+    path: "/users",
+    element: <Users />,
+    name: "Users",
+    icon: imgUsers,
+  },
+  {
     path: "/settings",
     element: <Settings />,
     name: "Settings",
     icon: imgSetting,
   },
+
   { path: "*", element: <ErrorPage /> },
 ];
 
