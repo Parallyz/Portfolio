@@ -9,6 +9,7 @@
 	//		padding-left: toRem(285);
 	//	}
 	//}
+	color: $color-gray-90;
 	&__page {
 		transition: all 0.3s ease-in-out;
 		//padding-left: toRem(65);
@@ -106,6 +107,9 @@
 	.users {
 		background-color: $color-white;
 		padding: toRem(32);
+		border: 1px solid $color-gray-60;
+		border-radius: 5px;
+
 		&__container {
 		}
 
@@ -125,14 +129,16 @@
 		}
 
 		&__sort {
-			font-weight: 600;
-			font-size: toRem(14);
-			line-height: 20px;
 			display: flex;
 			gap: toRem(24);
+
 			button {
 				display: flex;
 				align-items: center;
+				font-weight: 600;
+				font-size: toRem(14);
+				line-height: 20px;
+				color: $color-gray-90;
 			}
 
 			letter-spacing: 0.2px;
@@ -153,10 +159,11 @@
 				display: flex;
 				justify-content: unset;
 				&__block {
-					max-width: 250px;
+					max-width: 350px;
 					width: 100%;
+
 					&:first-child {
-						margin-left: toRem(52);
+						margin-left: toRem(90);
 					}
 				}
 			}
@@ -164,9 +171,6 @@
 			.user {
 				width: calc(100% + 2 * toRem(32));
 				transform: translate(calc(-1 * toRem(32)), 0);
-
-				border-left: 1px solid $color-gray-60;
-				border-right: 1px solid $color-gray-60;
 				border-top: 1px solid $color-gray-60;
 				&:last-child {
 					border-bottom: 1px solid $color-gray-60;
@@ -174,7 +178,7 @@
 
 				&__container {
 					display: flex;
-					padding: toRem(24) toRem(32);
+					padding: toRem(14) toRem(32);
 
 					align-items: center;
 					&:hover {
@@ -185,8 +189,7 @@
 				&__img {
 					border-radius: 50%;
 					overflow: hidden;
-					width: 40px;
-					height: 40px;
+
 					margin-right: toRem(24);
 					img {
 						object-fit: cover;
@@ -195,8 +198,8 @@
 
 				&__info {
 					width: 100%;
-					max-width: 250px;
-					margin: 0 auto;
+					max-width: 350px;
+
 					text-align: left;
 				}
 			}
@@ -239,6 +242,9 @@
 					}
 				}
 			}
+		}
+		&__pagination {
+			margin-top: toRem(24);
 		}
 	}
 	.sidemenu {
@@ -340,5 +346,33 @@
 
 	.img-svg {
 		filter: invert(88%) sepia(8%) saturate(134%) hue-rotate(187deg) brightness(87%) contrast(101%);
+	}
+
+	.pagination {
+		font-weight: 400;
+		font-size: toRem(14);
+		line-height: 20px;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		letter-spacing: 0.3px;
+		&__limit {
+			input {
+				margin-left: toRem(10);
+				padding: toRem(10) toRem(15);
+				border-radius: 5px;
+				border: 1px solid $color-gray-90;
+				width: 50px;
+			}
+			input::-webkit-outer-spin-button,
+			input::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+			}
+
+			/* Firefox */
+			input[type="number"] {
+				-moz-appearance: textfield;
+			}
+		}
 	}
 }
