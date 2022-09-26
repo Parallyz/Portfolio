@@ -22,9 +22,6 @@ export interface adminPath {
   name?: string;
 }
 
-
-
-
 export interface Users {
   users?: User[];
   total?: number;
@@ -43,7 +40,7 @@ export interface User {
   phone?: string;
   username?: string;
   password?: string;
-  birthDate?: Date;
+  birthDate?: string;
   image?: string;
   bloodGroup?: string;
   height?: number;
@@ -94,6 +91,3 @@ export interface Hair {
   color?: string;
   type?: string;
 }
-
-
-

@@ -24,6 +24,7 @@
 		width: 100%;
 		display: flex;
 		justify-content: space-between;
+		margin-bottom: 50px;
 		&__title {
 			font-weight: 700;
 			font-size: toRem(24);
@@ -86,7 +87,7 @@
 			}
 		}
 	}
-	
+
 	.notification {
 		position: relative;
 		&__count {
@@ -94,112 +95,250 @@
 			background-color: $color-blue;
 			position: absolute;
 			top: 0;
-			right:  0;
+			right: 0;
 			width: 8px;
-			height:8px;
+			height: 8px;
 			border: 1px solid $color-gray-40;
 			z-index: 1;
-
 		}
 	}
-}
-.sidemenu {
-	overflow: hidden;
-	transition: all 0.3s ease-in-out;
-	width: 100%;
-	max-width: toRem(285);
-	padding: 0 toRem(32);
-	position: fixed;
-	background-color: $color-gray;
-	height: 100vh;
-	color: $color-gray-80;
 
-	.header__container {
-		display: flex;
-		gap: 20px;
-		align-items: center;
-	}
-	&__header {
-		padding: toRem(37) 0;
-		font-weight: 700;
-		font-size: 19px;
-		line-height: 24px;
-	}
-
-	&__link {
-		&:focus,
-		&:hover,
-		&:visited,
-		&:link,
-		&:active {
-			text-decoration: none;
-			color: $color-gray-90;
+	.users {
+		background-color: $color-white;
+		padding: toRem(32);
+		&__container {
 		}
-		display: flex;
-		align-items: center;
-		gap: 20px;
 
-		width: calc(100% + 2 * toRem(32));
-		position: relative;
-		left: calc(-1 * toRem(32));
-		padding: toRem(18) toRem(32);
+		&__header {
+			h1 {
+				font-weight: 700;
+				font-size: toRem(19);
+				line-height: 24px;
 
-		&--active,
-		&:hover {
-			background-color: $color-gray-95;
-			position: relative;
-			color: $color-gray-70 !important;
+				letter-spacing: 0.4px;
+			}
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
 
+			margin-bottom: toRem(48);
+		}
+
+		&__sort {
+			font-weight: 600;
+			font-size: toRem(14);
+			line-height: 20px;
+			display: flex;
+			gap: toRem(24);
+			button {
+				display: flex;
+				align-items: center;
+			}
+
+			letter-spacing: 0.2px;
 			img {
-				filter: invert(92%) sepia(79%) saturate(6668%) hue-rotate(179deg) brightness(102%) contrast(101%);
+				display: block;
+				margin-right: toRem(10);
 			}
 		}
 
-		&--active {
-			&:before {
-				content: "";
-				position: absolute;
-				top: 0;
-				left: 0;
-				z-index: 1;
-				width: 5px;
-				height: 100%;
-				background-color: $color-gray-70;
+		&__list {
+			.header {
+				font-weight: 700;
+				font-size: toRem(14);
+				line-height: 18px;
+				color: $color-gray-90;
+				letter-spacing: 0.2px;
+				margin-bottom: toRem(10);
+				display: flex;
+				justify-content: unset;
+				&__block {
+					max-width: 250px;
+					width: 100%;
+					&:first-child {
+						margin-left: toRem(52);
+					}
+				}
+			}
+
+			.user {
+				width: calc(100% + 2 * toRem(32));
+				transform: translate(calc(-1 * toRem(32)), 0);
+
+				border-left: 1px solid $color-gray-60;
+				border-right: 1px solid $color-gray-60;
+				border-top: 1px solid $color-gray-60;
+				&:last-child {
+					border-bottom: 1px solid $color-gray-60;
+				}
+
+				&__container {
+					display: flex;
+					padding: toRem(24) toRem(32);
+
+					align-items: center;
+					&:hover {
+						background-color: $color-gray-40;
+					}
+				}
+
+				&__img {
+					border-radius: 50%;
+					overflow: hidden;
+					width: 40px;
+					height: 40px;
+					margin-right: toRem(24);
+					img {
+						object-fit: cover;
+					}
+				}
+
+				&__info {
+					width: 100%;
+					max-width: 250px;
+					margin: 0 auto;
+					text-align: left;
+				}
+			}
+			.info {
+				&__bold {
+					font-weight: 600;
+					font-size: 16px;
+					line-height: 20px;
+
+					letter-spacing: 0.2px;
+					color: $color-black;
+				}
+
+				&__light {
+					font-weight: 400;
+					font-size: 12px;
+					line-height: 16px;
+
+					letter-spacing: 0.1px;
+					color: $color-gray-50;
+				}
+
+				&__category {
+					color: $color-white;
+					padding: 5px;
+					text-transform: uppercase;
+					border-radius: 5px;
+					display: inline-block;
+
+					font-weight: 700;
+					font-size: toRem(11);
+					line-height: 14px;
+					letter-spacing: 0.5px;
+					&--yellow {
+						background-color: $color-yellow;
+					}
+
+					&--green {
+						background-color: $color-success;
+					}
+				}
 			}
 		}
 	}
+	.sidemenu {
+		overflow: hidden;
+		transition: all 0.3s ease-in-out;
+		width: 100%;
+		max-width: toRem(285);
+		padding: 0 toRem(32);
+		position: fixed;
+		background-color: $color-gray;
+		height: 100vh;
+		color: $color-gray-80;
 
-	&__sub-list {
-		position: relative;
-		&::before {
-			content: "";
-			display: block;
+		.header__container {
+			display: flex;
+			gap: 20px;
+			align-items: center;
+		}
+		&__header {
+			padding: toRem(37) 0;
+			font-weight: 700;
+			font-size: 19px;
+			line-height: 24px;
+		}
+
+		&__link {
+			&:focus,
+			&:hover,
+			&:visited,
+			&:link,
+			&:active {
+				text-decoration: none;
+				color: $color-gray-90;
+			}
+			display: flex;
+			align-items: center;
+			gap: 20px;
+
 			width: calc(100% + 2 * toRem(32));
-			left: calc(-1 * toRem(32));
 			position: relative;
-			height: 1px;
-			opacity: 0.06;
-			margin: toRem(16) 0;
-			background-color: $color-gray-60;
+			left: calc(-1 * toRem(32));
+			padding: toRem(18) toRem(32);
+
+			&--active,
+			&:hover {
+				background-color: $color-gray-95;
+				position: relative;
+				color: $color-gray-70 !important;
+
+				img {
+					filter: invert(92%) sepia(79%) saturate(6668%) hue-rotate(179deg) brightness(102%) contrast(101%);
+				}
+			}
+
+			&--active {
+				&:before {
+					content: "";
+					position: absolute;
+					top: 0;
+					left: 0;
+					z-index: 1;
+					width: 5px;
+					height: 100%;
+					background-color: $color-gray-70;
+				}
+			}
+		}
+
+		&__sub-list {
+			position: relative;
+			&::before {
+				content: "";
+				display: block;
+				width: calc(100% + 2 * toRem(32));
+				left: calc(-1 * toRem(32));
+				position: relative;
+				height: 1px;
+				opacity: 0.06;
+				margin: toRem(16) 0;
+				background-color: $color-gray-60;
+			}
+		}
+
+		&__list {
+		}
+
+		&__item {
+			font-size: 16px;
+			line-height: 20px;
+			position: relative;
+		}
+
+		&__img {
+			img {
+				filter: invert(63%) sepia(13%) saturate(307%) hue-rotate(194deg) brightness(101%) contrast(87%);
+			}
 		}
 	}
 
-	&__list {
+	.img-svg {
+		filter: invert(88%) sepia(8%) saturate(134%) hue-rotate(187deg) brightness(87%) contrast(101%);
 	}
-
-	&__item {
-		font-size: 16px;
-		line-height: 20px;
-		position: relative;
-	}
-
-	&__img {
-		img {
-			filter: invert(63%) sepia(13%) saturate(307%) hue-rotate(194deg) brightness(101%) contrast(87%);
-		}
-	}
-}
-
-.img-svg {
-	filter: invert(88%) sepia(8%) saturate(134%) hue-rotate(187deg) brightness(87%) contrast(101%);
 }
