@@ -7,39 +7,59 @@ import UserItem from "./UserItem";
 import Loader from "../../../modal/Loader";
 import { useDebounce } from "../../../../hooks/debounce";
 import TableHeaderTab from "./TableHeaderTab";
+import { User } from "../../../../models/models";
 
 const UserList = () => {
   const [perPage, SetPerPage] = useState(10);
   const [currentPage, SetCurrentPage] = useState(1);
-  const [total, SetTotal] = useState(10);
+  const [total, SetTotal] = useState(0);
   const debounceLimit = useDebounce(perPage, 1000);
+  const [userData, SetuserData] = useState([]);
 
-  const [fetchUsers, { isError, isLoading, data: userList }] =
-    useLazyGetUsersQuery();
+  const [fetchUsers, { isError, isLoading, data }] = useLazyGetUsersQuery();
+
+  const userSort = {
+    Username: "username",
+    Name: "firstName",
+    Birth: "birthDate",
+    Gender: "gender",
+  };
 
   const loadData = useCallback(() => {
     console.log("Callback");
 
-    const _limit =
-      (currentPage - 1) * perPage > total
-        ? total - (currentPage - 1) * perPage
-        : perPage;
+    //const _limit =
+    //  (currentPage - 1) * perPage > total
+    //    ? total - (currentPage - 1) * perPage
+    //    : perPage;
 
-    const _skip =
-      (currentPage - 1) * perPage > total
-        ? total - _limit
-        : (currentPage - 1) * perPage;
+    //const _skip =
+    //  (currentPage - 1) * perPage > total
+    //    ? total - _limit
+    //    : (currentPage - 1) * perPage;
 
     fetchUsers({ skip: (currentPage - 1) * perPage, limit: perPage });
+
     //fetchUsers({ skip: _skip, limit: _limit });
   }, [debounceLimit, currentPage]);
 
+  //? On load
   useEffect(() => {
-    if (!isLoading) {
-      SetTotal(userList?.limit);
-    }
-  }, [isLoading]);
+    if (!isLoading && data?.users) {
+      SetTotal(data?.total);
 
+      SetuserData(data?.users);
+    }
+  }, [isLoading, total]);
+
+  //? User-load
+  useEffect(() => {
+    if (!isLoading && data?.users) {
+      SetuserData(data?.users);
+    }
+  }, [isLoading, data?.users]);
+
+  //? Limit change load
   useEffect(() => {
     if (debounceLimit) {
       loadData();
@@ -71,7 +91,17 @@ const UserList = () => {
 
   const sortHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log(e.currentTarget.innerText);
+    //const field = e.currentTarget.innerText;
+
+    //console.log(userSort[field]);
+    //testSort.sort((a, b) => (a?.name > b?.name ? 1 : -1));
+
+    const sorted = [...data.users].sort((a, b) => {
+      return a?.username > b?.username ? 1 : -1;
+    });
+
+    SetuserData(sorted);
+    console.log("User", userData);
   };
   return (
     <div className="users">
@@ -90,7 +120,7 @@ const UserList = () => {
           </div>
         </div>
         <div className="users__list">
-          {!userList ? (
+          {isLoading ? (
             <Loader />
           ) : (
             <>
@@ -120,7 +150,11 @@ const UserList = () => {
                   </button>
                 </div>
               </div>
-              {userList?.users.map((user) => (
+              {/*{data?.users.map((user) => (
+                <UserItem key={user.id} user={user} />
+              ))}*/}
+
+              {userData.map((user) => (
                 <UserItem key={user.id} user={user} />
               ))}
             </>
@@ -142,10 +176,10 @@ const UserList = () => {
           <div className="pagination__pages">
             <div>
               {(currentPage - 1) * perPage} -{" "}
-              {currentPage * perPage > userList?.total
-                ? userList?.total
+              {currentPage * perPage > data?.total
+                ? data?.total
                 : currentPage * perPage}{" "}
-              of {userList?.total}
+              of {data?.total}
             </div>
             <div className="pagination__arrows">
               <button
@@ -155,7 +189,7 @@ const UserList = () => {
                 <img src={Arrow} alt="arrow" />
               </button>
               <button
-                disabled={currentPage * perPage >= userList?.total}
+                disabled={currentPage * perPage >= data?.total}
                 onClick={() => chnagePageHandler(currentPage + 1)}
               >
                 <img
