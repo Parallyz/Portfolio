@@ -1,9 +1,9 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { adminPath } from "../../models/models";
 import { AdminSideMenu } from "../admin/AdminSideMenu";
+import ErrorPage from "../error/ErrorPage";
 import { adminRoutes, publicRoutes } from "./Router";
-
 
 const AppRouter = () => {
   return (
@@ -16,9 +16,11 @@ const AppRouter = () => {
 
       <AdminSideMenu>
         <Routes>
+          <Route path="/" element={<Navigate to="/overview" replace />} />
           {adminRoutes.map((route: adminPath) => (
             <Route key={route.path} path={route.path} element={route.element} />
           ))}
+          <Route path="*" element={<ErrorPage />}></Route>
         </Routes>
       </AdminSideMenu>
     </BrowserRouter>

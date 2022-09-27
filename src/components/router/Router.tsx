@@ -55,8 +55,4 @@ export const adminRoutes: adminPath[] = [
     name: "Settings",
     icon: imgSetting,
   },
-
-  { path: "*", element: <ErrorPage /> },
 ];
-
-

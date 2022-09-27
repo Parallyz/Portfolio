@@ -161,6 +161,24 @@
 				&__block {
 					max-width: 350px;
 					width: 100%;
+					button {
+						display: flex;
+						align-items: center;
+						color: $color-gray-90;
+
+						.active {
+							color: $color-success;
+							font-weight: 700;
+
+							img {
+								filter: invert(88%) sepia(8%) saturate(134%) hue-rotate(187deg) brightness(87%) contrast(101%);
+							}
+						}
+
+						img {
+							margin-right: toRem(10);
+						}
+					}
 
 					&:first-child {
 						margin-left: toRem(90);
@@ -356,13 +374,37 @@
 		justify-content: flex-end;
 		align-items: center;
 		letter-spacing: 0.3px;
+		gap: toRem(20);
+
+		&__pages {
+			display: flex;
+			align-items: center;
+			gap: toRem(20);
+		}
+
+		&__arrows {
+			display: flex;
+			gap: toRem(20);
+
+			img {
+				filter: invert(72%) sepia(96%) saturate(369%) hue-rotate(97deg) brightness(84%) contrast(89%);
+			}
+
+			button:disabled,
+			button[disabled] {
+				img {
+					filter: unset;
+				}
+			}
+		}
+
 		&__limit {
 			input {
 				margin-left: toRem(10);
 				padding: toRem(10) toRem(15);
 				border-radius: 5px;
 				border: 1px solid $color-gray-90;
-				width: 50px;
+				width: 65px;
 			}
 			input::-webkit-outer-spin-button,
 			input::-webkit-inner-spin-button {
