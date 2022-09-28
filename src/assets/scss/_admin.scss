@@ -161,22 +161,23 @@
 				&__block {
 					max-width: 350px;
 					width: 100%;
+
 					button {
 						display: flex;
 						align-items: center;
 						color: $color-gray-90;
 
-						.active {
-							color: $color-success;
-							font-weight: 700;
-
-							img {
-								filter: invert(88%) sepia(8%) saturate(134%) hue-rotate(187deg) brightness(87%) contrast(101%);
-							}
-						}
-
 						img {
 							margin-right: toRem(10);
+						}
+					}
+
+					.header__active {
+						color: $color-success;
+						font-weight: 700;
+
+						img {
+							filter: invert(75%) sepia(56%) saturate(636%) hue-rotate(99deg) brightness(89%) contrast(78%);
 						}
 					}
 

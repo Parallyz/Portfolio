@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Sort from "../../../../assets/img/admin/svg/sort.svg";
 import Filter from "../../../../assets/img/admin/svg/filter.svg";
 import Arrow from "../../../../assets/img/admin/svg/arrow-left.svg";
@@ -7,23 +7,25 @@ import UserItem from "./UserItem";
 import Loader from "../../../modal/Loader";
 import { useDebounce } from "../../../../hooks/debounce";
 import TableHeaderTab from "./TableHeaderTab";
-import { User } from "../../../../models/models";
+import {
+  EUserSortedKeys,
+  User,
+  userSortKeys,
+  UserSortKeys,
+  userTableHeaderView,
+} from "../../../../models/models";
+import { sortedArray } from "../../../../utils/sortArray";
 
 const UserList = () => {
   const [perPage, SetPerPage] = useState(10);
   const [currentPage, SetCurrentPage] = useState(1);
   const [total, SetTotal] = useState(0);
-  const debounceLimit = useDebounce(perPage, 1000);
-  const [userData, SetuserData] = useState([]);
+  const [userData, SetUserData] = useState([]);
+  const [selectedHeader, SetSelectedHeader] = useState(null);
 
   const [fetchUsers, { isError, isLoading, data }] = useLazyGetUsersQuery();
 
-  const userSort = {
-    Username: "username",
-    Name: "firstName",
-    Birth: "birthDate",
-    Gender: "gender",
-  };
+  const debounceLimit = useDebounce(perPage, 1000);
 
   const loadData = useCallback(() => {
     console.log("Callback");
@@ -48,14 +50,14 @@ const UserList = () => {
     if (!isLoading && data?.users) {
       SetTotal(data?.total);
 
-      SetuserData(data?.users);
+      SetUserData(data?.users);
     }
   }, [isLoading, total]);
 
-  //? User-load
+  //? Users-load
   useEffect(() => {
     if (!isLoading && data?.users) {
-      SetuserData(data?.users);
+      SetUserData(data?.users);
     }
   }, [isLoading, data?.users]);
 
@@ -89,19 +91,17 @@ const UserList = () => {
     SetCurrentPage(newPage);
   };
 
-  const sortHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const sortHandler = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => {
     e.preventDefault();
-    //const field = e.currentTarget.innerText;
+    const field: string = e.currentTarget.innerText;
+    if (userSortKeys[field]) {
+      SetSelectedHeader(index);
 
-    //console.log(userSort[field]);
-    //testSort.sort((a, b) => (a?.name > b?.name ? 1 : -1));
-
-    const sorted = [...data.users].sort((a, b) => {
-      return a?.username > b?.username ? 1 : -1;
-    });
-
-    SetuserData(sorted);
-    console.log("User", userData);
+      SetUserData(sortedArray(userData, userSortKeys[field]));
+    }
   };
   return (
     <div className="users">
@@ -109,10 +109,6 @@ const UserList = () => {
         <div className="users__header">
           <h1>All Users</h1>
           <div className="users__sort">
-            <button>
-              <img src={Sort} className="img-svg" />
-              Sort
-            </button>
             <button>
               <img src={Filter} className="img-svg" />
               Filter
@@ -125,34 +121,20 @@ const UserList = () => {
           ) : (
             <>
               <div className="header">
-                <div className="header__block">
-                  <button onClick={(e) => sortHandler(e)}>
-                    <img src={Sort} className="img-svg" />
-                    Username
-                  </button>
-                </div>
-                <div className="header__block">
-                  <button onClick={(e) => sortHandler(e)}>
-                    <img src={Sort} className="img-svg" />
-                    Name
-                  </button>
-                </div>
-                <div className="header__block">
-                  <button onClick={(e) => sortHandler(e)}>
-                    <img src={Sort} className="img-svg" />
-                    Birth
-                  </button>
-                </div>
-                <div className="header__block">
-                  <button onClick={(e) => sortHandler(e)}>
-                    <img src={Sort} className="img-svg" />
-                    Gender
-                  </button>
-                </div>
+                {userTableHeaderView.map((item, index) => (
+                  <div className="header__block" key={index}>
+                    <button
+                      className={
+                        selectedHeader === index ? "header__active" : ""
+                      }
+                      onClick={(e) => sortHandler(e, index)}
+                    >
+                      <img src={Sort} className="img-svg" />
+                      {item}
+                    </button>
+                  </div>
+                ))}
               </div>
-              {/*{data?.users.map((user) => (
-                <UserItem key={user.id} user={user} />
-              ))}*/}
 
               {userData.map((user) => (
                 <UserItem key={user.id} user={user} />
