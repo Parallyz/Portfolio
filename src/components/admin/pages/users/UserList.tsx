@@ -7,14 +7,8 @@ import UserItem from "./UserItem";
 import Loader from "../../../modal/Loader";
 import { useDebounce } from "../../../../hooks/debounce";
 import TableHeaderTab from "./TableHeaderTab";
-import {
-  EUserSortedKeys,
-  User,
-  userSortKeys,
-  UserSortKeys,
-  userTableHeaderView,
-} from "../../../../models/models";
-import { sortedArray } from "../../../../utils/sortArray";
+import { userSortKeys } from "../../../../models/models";
+import { sortedArrayDec, sortedArrayInc } from "../../../../utils/sortArray";
 
 const UserList = () => {
   const [perPage, SetPerPage] = useState(10);
@@ -22,6 +16,7 @@ const UserList = () => {
   const [total, SetTotal] = useState(0);
   const [userData, SetUserData] = useState([]);
   const [selectedHeader, SetSelectedHeader] = useState(null);
+  const [isSortOrderInc, SetIsSortOrderInc] = useState(true);
 
   const [fetchUsers, { isError, isLoading, data }] = useLazyGetUsersQuery();
 
@@ -98,9 +93,16 @@ const UserList = () => {
     e.preventDefault();
     const field: string = e.currentTarget.innerText;
     if (userSortKeys[field]) {
-      SetSelectedHeader(index);
+      if (selectedHeader === index && isSortOrderInc) {
+        SetIsSortOrderInc(false);
 
-      SetUserData(sortedArray(userData, userSortKeys[field]));
+        SetUserData(sortedArrayDec(userData, userSortKeys[field]));
+      } else {
+        SetIsSortOrderInc(true);
+
+        SetSelectedHeader(index);
+        SetUserData(sortedArrayInc(userData, userSortKeys[field]));
+      }
     }
   };
   return (
@@ -121,18 +123,27 @@ const UserList = () => {
           ) : (
             <>
               <div className="header">
-                {userTableHeaderView.map((item, index) => (
-                  <div className="header__block" key={index}>
-                    <button
-                      className={
-                        selectedHeader === index ? "header__active" : ""
-                      }
-                      onClick={(e) => sortHandler(e, index)}
-                    >
-                      <img src={Sort} className="img-svg" />
-                      {item}
-                    </button>
-                  </div>
+                {Object.keys(userSortKeys).map((item, index) => (
+                  //<div className="header__block" key={index}>
+                  //  <button
+                  //    className={
+                  //      selectedHeader === index ? "header__active" : ""
+                  //    }
+                  //    onClick={(e) => sortHandler(e, index)}
+                  //  >
+                  //    <img src={Sort} className="img-svg" />
+                  //    {item}
+                  //  </button>
+                  //</div>
+                  <TableHeaderTab
+                    key={index}
+                    name={item}
+                    index={index}
+                    img={Sort}
+                    isIncrise={isSortOrderInc}
+                    isActive={selectedHeader === index}
+                    clickEvent={sortHandler}
+                  />
                 ))}
               </div>
 

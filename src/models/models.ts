@@ -118,10 +118,3 @@ export const userSortKeys: UserSortKeys = {
   Birth: "birthDate",
   Gender: "gender",
 };
-
-export const userTableHeaderView = [
-  EUserSortedKeys.Username,
-  EUserSortedKeys.Name,
-  EUserSortedKeys.Birth,
-  EUserSortedKeys.Gender,
-];
