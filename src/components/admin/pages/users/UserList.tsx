@@ -112,7 +112,7 @@ const UserList = () => {
           <h1>All Users</h1>
           <div className="users__sort">
             <button>
-              <img src={Filter} className="img-svg" />
+              <img src={Filter} className="img__svg" />
               Filter
             </button>
           </div>
@@ -124,17 +124,6 @@ const UserList = () => {
             <>
               <div className="header">
                 {Object.keys(userSortKeys).map((item, index) => (
-                  //<div className="header__block" key={index}>
-                  //  <button
-                  //    className={
-                  //      selectedHeader === index ? "header__active" : ""
-                  //    }
-                  //    onClick={(e) => sortHandler(e, index)}
-                  //  >
-                  //    <img src={Sort} className="img-svg" />
-                  //    {item}
-                  //  </button>
-                  //</div>
                   <TableHeaderTab
                     key={index}
                     name={item}

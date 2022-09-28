@@ -158,6 +158,8 @@
 				margin-bottom: toRem(10);
 				display: flex;
 				justify-content: unset;
+
+				max-width: calc(100% - 56px);
 				&__block {
 					max-width: 350px;
 					width: 100%;
@@ -166,7 +168,10 @@
 						display: flex;
 						align-items: center;
 						color: $color-gray-90;
-
+						padding: toRem(10);
+						&:hover {
+							background-color: $color-gray-40;
+						}
 						img {
 							margin-right: toRem(10);
 						}
@@ -182,7 +187,7 @@
 					}
 
 					&:first-child {
-						margin-left: toRem(90);
+						margin-left: toRem(70);
 					}
 				}
 			}
@@ -200,8 +205,13 @@
 					padding: toRem(14) toRem(32);
 
 					align-items: center;
+
 					&:hover {
 						background-color: $color-gray-40;
+					}
+
+					& .user__btn:last-child {
+						margin-left: 20px;
 					}
 				}
 
@@ -220,6 +230,16 @@
 					max-width: 350px;
 
 					text-align: left;
+				}
+				&__btn {
+					button {
+						width: 18px;
+
+						img {
+							width: 18px;
+							height: 18px;
+						}
+					}
 				}
 			}
 			.info {
@@ -363,8 +383,14 @@
 		}
 	}
 
-	.img-svg {
+	.img__svg {
 		filter: invert(88%) sepia(8%) saturate(134%) hue-rotate(187deg) brightness(87%) contrast(101%);
+		&--yellow:hover {
+			filter: invert(76%) sepia(76%) saturate(2185%) hue-rotate(360deg) brightness(104%) contrast(106%);
+		}
+		&--red:hover {
+			filter: invert(29%) sepia(82%) saturate(5441%) hue-rotate(344deg) brightness(94%) contrast(103%);
+		}
 	}
 
 	.pagination {

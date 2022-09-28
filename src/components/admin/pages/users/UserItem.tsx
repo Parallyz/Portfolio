@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { User } from "../../../../models/models";
+import EditSvg from "../../../../assets/img/admin/svg/edit.svg";
+import DeleteSvg from "../../../../assets/img/admin/svg/bucket.svg";
+import { useLazyDeleteUserQuery } from "../../../../redux/user/user.api";
 
 interface UserItemProps {
   user: User;
 }
 
 const UserItem = ({ user }: UserItemProps) => {
-  const category = [
-    "info__category",
-    user.gender === "male" ? "info__category--yellow" : "info__category--green",
-  ];
+  const [deleteUser, { isError, isLoading, data: response }] =
+    useLazyDeleteUserQuery();
+
+  useEffect(() => {
+    if (response) console.log("is Deleted", response.isDeleted);
+  }, [response]);
+
+  const deleteHandler = (id: number): void => {
+    deleteUser(id);
+  };
 
   const getDate = () => {
     const data = user.birthDate.split("-");
@@ -37,9 +46,33 @@ const UserItem = ({ user }: UserItemProps) => {
             <div className="info__bold">{getDate()}</div>
           </div>
           <div className="user__info">
-            <div className={category.join(" ")}>
+            <div
+              className={
+                user.gender === "male"
+                  ? "info__category info__category--yellow"
+                  : "info__category info__category--green"
+              }
+            >
               {user.gender.toUpperCase()}
             </div>
+          </div>
+          <div className="user__btn">
+            <button>
+              <img
+                className="img__svg img__svg--yellow"
+                src={EditSvg}
+                alt="Edit"
+              />
+            </button>
+          </div>
+          <div className="user__btn">
+            <button onClick={() => deleteHandler(user.id)}>
+              <img
+                className="img__svg img__svg--red"
+                src={DeleteSvg}
+                alt="Edit"
+              />
+            </button>
           </div>
         </div>
       </div>

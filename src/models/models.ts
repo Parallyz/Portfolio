@@ -59,6 +59,8 @@ export interface User {
   userAgent?: string;
 }
 
+export type UserDelete = User & { isDeleted: boolean };
+
 export interface Address {
   address?: string;
   city?: string;

@@ -18,12 +18,12 @@ const AdminHeader = ({ title, children }: AdminHeaderProps) => {
         <div className="header__btns ">
           <div className="header__btns-search">
             <button>
-              <img src={Search} className="img-svg" />
+              <img src={Search} className="img__svg" />
             </button>
           </div>
           <div className="header__btns-notifications notification">
             <button>
-              <img src={Notification} className="img-svg" />
+              <img src={Notification} className="img__svg" />
               {isNotification && <div className="notification__count"></div>}
             </button>
           </div>

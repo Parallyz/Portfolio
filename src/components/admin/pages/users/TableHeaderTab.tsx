@@ -26,7 +26,7 @@ const TableHeaderTab = ({
       >
         <img
           src={img}
-          className="img-svg"
+          className="img__svg"
           style={{
             transform:
               isIncrise && isActive ? "rotate(180deg)" : "rotate(0deg)",
