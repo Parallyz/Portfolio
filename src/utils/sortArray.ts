@@ -1,11 +1,13 @@
 export const sortedArrayInc = <T>(arr: Array<T>, key: keyof T): Array<T> => {
-  return [...arr].sort((a, b) => {
+  const copy: Array<T> = JSON.parse(JSON.stringify(arr));
+  return copy.sort((a, b) => {
     return a[key] > b[key] ? 1 : -1;
   });
 };
 
 export const sortedArrayDec = <T>(arr: Array<T>, key: keyof T): Array<T> => {
-  return [...arr].sort((a, b) => {
+  const copy: Array<T> = JSON.parse(JSON.stringify(arr));
+  return copy.sort((a, b) => {
     return a[key] < b[key] ? 1 : -1;
   });
 };

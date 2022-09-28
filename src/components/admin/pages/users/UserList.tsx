@@ -1,14 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import Sort from "../../../../assets/img/admin/svg/sort.svg";
-import Filter from "../../../../assets/img/admin/svg/filter.svg";
+import React, { useCallback, useEffect, useState } from "react";
 import Arrow from "../../../../assets/img/admin/svg/arrow-left.svg";
-import { useLazyGetUsersQuery } from "../../../../redux/user/user.api";
-import UserItem from "./UserItem";
-import Loader from "../../../modal/Loader";
 import { useDebounce } from "../../../../hooks/debounce";
-import TableHeaderTab from "./TableHeaderTab";
 import { userSortKeys } from "../../../../models/models";
+import { useLazyGetUsersQuery } from "../../../../redux/user/user.api";
 import { sortedArrayDec, sortedArrayInc } from "../../../../utils/sortArray";
+import Table from "../../tables/Table";
+import ContainerHeader from "./ContainerHeader";
 
 const UserList = () => {
   const [perPage, SetPerPage] = useState(10);
@@ -108,40 +105,17 @@ const UserList = () => {
   return (
     <div className="users">
       <div className="users__container">
-        <div className="users__header">
-          <h1>All Users</h1>
-          <div className="users__sort">
-            <button>
-              <img src={Filter} className="img__svg" />
-              Filter
-            </button>
-          </div>
-        </div>
-        <div className="users__list">
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <>
-              <div className="header">
-                {Object.keys(userSortKeys).map((item, index) => (
-                  <TableHeaderTab
-                    key={index}
-                    name={item}
-                    index={index}
-                    img={Sort}
-                    isIncrise={isSortOrderInc}
-                    isActive={selectedHeader === index}
-                    clickEvent={sortHandler}
-                  />
-                ))}
-              </div>
+        <ContainerHeader nameClass={"users"} title={"Users"} />
 
-              {userData.map((user) => (
-                <UserItem key={user.id} user={user} />
-              ))}
-            </>
-          )}
-        </div>
+        <Table
+          isLoading={isLoading}
+          data={userData}
+          tableHeaders={Object.keys(userSortKeys)}
+          keyExtractor={({ id }) => id}
+          isSortIncrise={isSortOrderInc}
+          indexSelectedTableHeader={selectedHeader}
+          sortHandler={sortHandler}
+        />
         <div className="users__pagination pagination">
           <div className="pagination__limit">
             Rows per page:

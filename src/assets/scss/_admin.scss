@@ -139,6 +139,14 @@
 				font-size: toRem(14);
 				line-height: 20px;
 				color: $color-gray-90;
+
+				&:hover {
+					background-color: $color-gray-40;
+					img {
+						filter: invert(72%) sepia(96%) saturate(369%) hue-rotate(97deg) brightness(84%) contrast(89%);
+					}
+				}
+				padding: toRem(10);
 			}
 
 			letter-spacing: 0.2px;
@@ -390,6 +398,9 @@
 		}
 		&--red:hover {
 			filter: invert(29%) sepia(82%) saturate(5441%) hue-rotate(344deg) brightness(94%) contrast(103%);
+		}
+		&--green:hover {
+			filter: invert(72%) sepia(96%) saturate(369%) hue-rotate(97deg) brightness(84%) contrast(89%);
 		}
 	}
 
