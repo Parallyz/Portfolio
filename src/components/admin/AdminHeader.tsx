@@ -1,7 +1,4 @@
-import React, { ChangeEvent, ReactElement, useEffect, useState } from "react";
-import Search from "../../assets/img/admin/svg/search.svg";
-import Notification from "../../assets/img/admin/svg/notification.svg";
-import Avatar from "../../assets/img/admin/avatar.png";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useDebounce } from "../../hooks/debounce";
 import { useAppActions } from "../../hooks/actions";
 
@@ -26,36 +23,42 @@ const AdminHeader = ({ title, children, isNotification }: AdminHeaderProps) => {
     <header className="header">
       <div className="header__title">{title}</div>
       <div className="header__content">
-        <div className="header__input">
+        {/*<div className="header__input">
           <input
             className=""
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-        </div>
+        </div>*/}
 
         <div className="header__btns ">
-          <div className="header__btns-search">
+          <div>
             <button
             //onClick={() => {
             //  searchHandler;
             //}}
             >
-              <img src={Search} className="img__svg img__svg--green" />
+              <img
+                src="./assets/img/admin/svg/search.svg"
+                className="img--svg img--svg--green"
+              />
             </button>
           </div>
-          <div className="header__btns-notifications notification">
+          <div className=" notification">
             <button>
-              <img src={Notification} className="img__svg" />
+              <img
+                src="assets/img/admin/svg/notification.svg"
+                className="img--svg"
+              />
               {isNotification && <div className="notification__count"></div>}
             </button>
           </div>
         </div>
         <div className="header__user">
-          <div className="header__user-name">Jones Ferdinand</div>
+          <div className="user__name">Vladyslav Verus</div>
 
-          <button className="header__user-img">
-            <img src={Avatar} />
+          <button className="user__img">
+            <img src="./assets/img/admin/avatar.png" alt="avatar" />
           </button>
         </div>
       </div>

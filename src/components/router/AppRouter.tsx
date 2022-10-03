@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { adminPath } from "../../models/models";
 import { AdminSideMenu } from "../admin/AdminSideMenu";
 import ErrorPage from "../error/ErrorPage";
-import { adminRoutes, publicRoutes } from "./Router";
+import { adminRoutes } from "./Router";
 
 const AppRouter = () => {
   return (

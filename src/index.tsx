@@ -6,7 +6,7 @@ import { store } from "./redux/store";
 
 import "./assets/scss/style.scss";
 
-import AppRouter from "./components/router/AppRouter";
+import App from "./components/App";
 
 const root = ReactDOM.createRoot(
   document.querySelector("#root") as HTMLElement
@@ -14,8 +14,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <Provider store={store}>
-
-
-    <AppRouter />
+    <App />
   </Provider>
 );

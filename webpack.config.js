@@ -1,27 +1,46 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
+const PATHS = {
+  src: path.join(__dirname, "src"),
+  dist: path.join(__dirname, "dist"),
+  assets: "assets/",
+};
 module.exports = {
   mode: "development",
-  entry: ["@babel/polyfill", path.resolve(__dirname, "src/index.tsx")],
+  entry: ["@babel/polyfill", path.resolve(__dirname, `${PATHS.src}/index.tsx`)],
 
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: PATHS.dist,
     filename: "[name][contenthash].js",
     clean: true,
     assetModuleFilename: "[name][ext]",
+    publicPath: "/",
   },
 
   devtool: "source-map",
   resolve: {
     extensions: [".js", ".ts", ".tsx", ".scss"],
+    alias: {
+      "~": PATHS.src,
+      "@": `${PATHS.src}/js`,
+    },
   },
 
   plugins: [
     new HtmlWebpackPlugin({
       title: "Webpack App",
       filename: "index.html",
-      template: "src/index.html",
+      template: `${PATHS.src}/index.html`,
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: `${PATHS.src}/${PATHS.assets}img`,
+          to: `${PATHS.assets}img`,
+        },
+      ],
     }),
   ],
   devServer: {
@@ -50,7 +69,7 @@ module.exports = {
           },
         },
       },
-   
+
       {
         test: /\.scss$/,
         use: ["style-loader", "css-loader", "sass-loader"],

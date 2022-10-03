@@ -1,0 +1,76 @@
+.admin {
+   .header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 50px;
+      &__title {
+         font-weight: 700;
+         font-size: toRem(24);
+         line-height: 30px;
+         letter-spacing: 0.3px;
+      }
+
+      &__content {
+         display: flex;
+      }
+
+      &__btns {
+         display: flex;
+         gap: toRem(24);
+         align-items: center;
+         margin-right: 20px;
+
+         img {
+            width: 16px;
+            height: 16px;
+         }
+      }
+
+      &__user {
+         display: flex;
+         align-items: center;
+         gap: toRem(20);
+         &::before {
+            content: "";
+            height: 60%;
+            width: 1px;
+            display: inline-block;
+
+            background-color: $color-gray-50;
+         }
+         .user__name {
+            font-weight: 600;
+            font-size: toRem(14);
+            line-height: 20px;
+
+            letter-spacing: 0.2px;
+         }
+         .user__img {
+            border-radius: 50%;
+            overflow: hidden;
+            padding: 2px;
+            border: 1px solid $color-gray-50;
+            img {
+               display: block;
+               object-fit: cover;
+            }
+         }
+      }
+   }
+
+   .notification {
+      position: relative;
+      &__count {
+         border-radius: 50%;
+         background-color: $color-blue;
+         position: absolute;
+         top: 0;
+         right: 0;
+         width: 8px;
+         height: 8px;
+         border: 1px solid $color-gray-40;
+         z-index: 1;
+      }
+   }
+}

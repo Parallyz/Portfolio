@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Arrow from "../../../../assets/img/admin/svg/arrow-left.svg";
 import { useDebounce } from "../../../../hooks/debounce";
 import { useAppSelector } from "../../../../hooks/redux";
 import { User, userSortKeys } from "../../../../models/models";
@@ -8,8 +7,9 @@ import {
   useLazySearchUsersQuery,
 } from "../../../../redux/user/user.api";
 import { sortedArray } from "../../../../utils/sortArray";
+import ButtonPagintation from "../../../table/pagintation/ButtonPagintation";
 import Table from "../../../table/Table";
-import ContainerHeader from "../ContainerHeader";
+import TableHeader from "../../../table/TableHeader";
 
 const UserTable = () => {
   const [perPage, setPerPage] = useState<number>(10);
@@ -132,7 +132,7 @@ const UserTable = () => {
     }
   };
 
-  const chnagePageHandler = (newPage: number) => {
+  const changePageHandler = (newPage: number) => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -162,54 +162,46 @@ const UserTable = () => {
   };
 
   return (
-    <div className="users">
-      <div className="users__container">
-        <ContainerHeader nameClass={"users"} title={"Users"} />
-
-        <Table<User>
-          isLoading={fetchSearchUsersLoading}
-          data={userData}
-          tableHeaders={Object.keys(userSortKeys)}
-          keyExtractor={({ id }) => id.toString()}
-          isSortIncrise={isSortOrderInc}
-          indexSelectedTableHeader={selectedHeader}
-          sortHandler={sortHandler}
-          //TableComponent={UserItem}
-        />
-        <div className="users__pagination pagination">
-          <div className="pagination__limit">
-            Rows per page:
-            <input
-              type="number"
-              value={perPage}
-              max={"20"}
-              min={"1"}
-              disabled={currentPage * perPage >= total}
-              onChange={(e) => {
-                perPageHandler(e);
-              }}
+    <div className="table">
+      <TableHeader title={"Users"} />
+      <Table<User>
+        isLoading={fetchSearchUsersLoading}
+        data={userData}
+        tableHeaders={Object.keys(userSortKeys)}
+        keyExtractor={({ id }) => id.toString()}
+        isSortIncrise={isSortOrderInc}
+        indexSelectedTableHeader={selectedHeader}
+        sortHandler={sortHandler}
+        //TableComponent={UserItem}
+      />
+      <div className="table__pagination pagination">
+        <div className="pagination__limit">
+          Rows per page:
+          <input
+            type="number"
+            value={perPage}
+            max={"20"}
+            min={"1"}
+            disabled={currentPage * perPage >= total}
+            onChange={(e) => {
+              perPageHandler(e);
+            }}
+          />
+        </div>
+        <div className="pagination__pages">
+          <div>{getPagintationInfoString()}</div>
+          <div className="pagination__arrows">
+            <ButtonPagintation
+              disabled={currentPage < 2}
+              onClick={() => changePageHandler(currentPage - 1)}
+              img={"./assets/img/admin/svg/arrow-left.svg"}
             />
-          </div>
-          <div className="pagination__pages">
-            <div>{getPagintationInfoString()}</div>
-            <div className="pagination__arrows">
-              <button
-                disabled={currentPage < 2}
-                onClick={() => chnagePageHandler(currentPage - 1)}
-              >
-                <img src={Arrow} alt="arrow" />
-              </button>
-              <button
-                disabled={currentPage * perPage >= total}
-                onClick={() => chnagePageHandler(currentPage + 1)}
-              >
-                <img
-                  style={{ transform: "rotate(180deg)" }}
-                  src={Arrow}
-                  alt="arrow"
-                />
-              </button>
-            </div>
+            <ButtonPagintation
+              disabled={currentPage * perPage >= total}
+              onClick={() => changePageHandler(currentPage + 1)}
+              img={"./assets/img/admin/svg/arrow-left.svg"}
+              isMirroredImg={true}
+            />
           </div>
         </div>
       </div>

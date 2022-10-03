@@ -1,0 +1,33 @@
+.admin {
+   display: flex;
+   //background: url("../img/admin/test.jpg") 50% / cover no-repeat;
+
+   color: $color-gray-90;
+   &__page {
+      transition: all 0.3s ease-in-out;
+      //padding-left: toRem(65);
+      padding-left: toRem(285);
+      background-color: $color-gray-40;
+      width: 100%;
+      .page__container {
+         padding: 30px;
+      }
+   }
+
+   .img--svg {
+      filter: invert(88%) sepia(8%) saturate(134%) hue-rotate(187deg) brightness(87%) contrast(101%);
+      &--yellow:hover {
+         filter: invert(76%) sepia(76%) saturate(2185%) hue-rotate(360deg) brightness(104%) contrast(106%);
+      }
+      &--red:hover {
+         filter: invert(29%) sepia(82%) saturate(5441%) hue-rotate(344deg) brightness(94%) contrast(103%);
+      }
+      &--green:hover {
+         filter: invert(72%) sepia(96%) saturate(369%) hue-rotate(97deg) brightness(84%) contrast(89%);
+      }
+   }
+}
+
+@import "./header.scss";
+@import "./sideMenu.scss";
+@import "./table.scss";

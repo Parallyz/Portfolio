@@ -1,6 +1,6 @@
 import React from "react";
 
-import App from "../App";
+//import App from "../App";
 
 import ErrorPage from "../error/ErrorPage";
 import Header from "../main/Header";
@@ -11,18 +11,18 @@ import Settings from "../admin/pages/settings/Settings";
 import Tickets from "../admin/pages/tickets/Tickets";
 import Users from "../admin/pages/users/Users";
 
-export const publicRoutes = [
-  { path: "/", element: <App /> },
-  { path: "/head", element: <Header /> },
+//export const publicRoutes = [
+//  { path: "/", element: <App /> },
+//  { path: "/head", element: <Header /> },
 
-  { path: "*", element: <ErrorPage /> },
-];
+//  { path: "*", element: <ErrorPage /> },
+//];
 
-export const privateRoutes = [
-  { path: "/", element: <App /> },
+//export const privateRoutes = [
+//  { path: "/", element: <App /> },
 
-  { path: "*", element: <ErrorPage /> },
-];
+//  { path: "*", element: <ErrorPage /> },
+//];
 
 import imgSetting from "../../assets/img/admin/svg/settings.svg";
 import imgOverview from "../../assets/img/admin/svg/overview.svg";

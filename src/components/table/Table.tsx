@@ -27,7 +27,7 @@ const Table = <T extends unknown>({
   ...props
 }: TableProps<T>) => {
   return (
-    <div className="users__list">
+    <>
       {props.isLoading ? (
         <Loader />
       ) : (
@@ -45,14 +45,15 @@ const Table = <T extends unknown>({
               />
             ))}
           </div>
-
-          {props.data?.map((item: T) => (
-            //<TableComponent item={item} key={props.keyExtractor(item)} />
-            <UserItem user={item} key={props.keyExtractor(item)} />
-          ))}
+          <div className="table__list">
+            {props.data?.map((item: T) => (
+              //<TableComponent item={item} key={props.keyExtractor(item)} />
+              <UserItem item={item} key={props.keyExtractor(item)} />
+            ))}
+          </div>
         </>
       )}
-    </div>
+    </>
   );
 };
 
