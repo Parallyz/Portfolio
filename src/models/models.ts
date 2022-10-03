@@ -57,6 +57,7 @@ export interface User {
   ein?: string;
   ssn?: string;
   userAgent?: string;
+  [index: string]: string | any;
 }
 
 export type UserDelete = User & { isDeleted: boolean };

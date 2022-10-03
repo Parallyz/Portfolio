@@ -1,7 +1,7 @@
 import React from "react";
 
-import Filter from "../../../../assets/img/admin/svg/filter.svg";
-import Plus from "../../../../assets/img/admin/svg/plus.svg";
+import Filter from "../../../assets/img/admin/svg/filter.svg";
+import Plus from "../../../assets/img/admin/svg/plus.svg";
 
 interface ContainerHeaderProps {
   nameClass: string;

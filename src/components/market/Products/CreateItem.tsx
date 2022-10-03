@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Modal from "../../modal/Modal";
 
 function ModalTest() {
-  const [value, setValue] = useState("");
-  const [modal, setModal] = useState(true);
+  const [value, setValue] = useState<string>("");
+  const [modal, setModal] = useState<boolean>(true);
 
   //const changeHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
   //  setValue(event.target.value);

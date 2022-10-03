@@ -3,10 +3,12 @@ import { User } from "../../models/models";
 
 interface UserSliceState {
   users: Array<User>;
+  searchUserField: string;
 }
 
 const initialState: UserSliceState = {
   users: [],
+  searchUserField: "",
 };
 
 const UsersSlice = createSlice({
@@ -15,6 +17,9 @@ const UsersSlice = createSlice({
   reducers: {
     initData(state, action: PayloadAction<Array<User>>) {
       state.users = action.payload;
+    },
+    setSearchField(state, action: PayloadAction<string>) {
+      state.searchUserField = action.payload;
     },
   },
 });

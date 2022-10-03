@@ -1,24 +1,47 @@
-import React, { ReactElement, useState } from "react";
+import React, { ChangeEvent, ReactElement, useEffect, useState } from "react";
 import Search from "../../assets/img/admin/svg/search.svg";
 import Notification from "../../assets/img/admin/svg/notification.svg";
 import Avatar from "../../assets/img/admin/avatar.png";
+import { useDebounce } from "../../hooks/debounce";
+import { useAppActions } from "../../hooks/actions";
 
 interface AdminHeaderProps {
   title: string;
   children?: ReactElement;
+  isNotification?: boolean;
 }
 
-const AdminHeader = ({ title, children }: AdminHeaderProps) => {
-  const [isNotification, SetisNotification] = useState(true);
+const AdminHeader = ({ title, children, isNotification }: AdminHeaderProps) => {
+  const [searchClick, setIsSearchClick] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>("");
+  const debounceSearch = useDebounce(search, 1000);
+
+  const { setSearchField } = useAppActions();
+
+  useEffect(() => {
+    setSearchField(debounceSearch.toString());
+  }, [debounceSearch]);
 
   return (
     <header className="header">
       <div className="header__title">{title}</div>
       <div className="header__content">
+        <div className="header__input">
+          <input
+            className=""
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
         <div className="header__btns ">
           <div className="header__btns-search">
-            <button>
-              <img src={Search} className="img__svg" />
+            <button
+            //onClick={() => {
+            //  searchHandler;
+            //}}
+            >
+              <img src={Search} className="img__svg img__svg--green" />
             </button>
           </div>
           <div className="header__btns-notifications notification">

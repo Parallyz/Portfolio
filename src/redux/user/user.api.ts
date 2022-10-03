@@ -25,7 +25,12 @@ export const userApi = createApi({
         method: "DELETE",
       }),
     }),
+    searchUsers: build.query<Users, string>({
+      query: (search) => ({
+        url: `users/search?q=${search}`,
+      }),
+    }),
   }),
 });
 
-export const { useLazyGetUsersQuery, useLazyDeleteUserQuery } = userApi;
+export const { useLazyGetUsersQuery, useLazyDeleteUserQuery,useLazySearchUsersQuery } = userApi;

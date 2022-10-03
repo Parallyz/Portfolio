@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { userSortKeys } from "../../../models/models";
-import Loader from "../../modal/Loader";
+import React, { ReactElement, useEffect, useState } from "react";
+import { userSortKeys } from "../../models/models";
+import Loader from "../modal/Loader";
 import TableHeaderTab from "./TableHeaderTab";
-import Sort from "../../../assets/img/admin/svg/sort.svg";
-import { sortedArrayDec, sortedArrayInc } from "../../../utils/sortArray";
-import UserItem from "../pages/users/UserItem";
+import Sort from "../../assets/img/admin/svg/sort.svg";
+import UserItem from "../admin/pages/users/UserItem";
+
+type TableItemProps<T> = {
+  item: T;
+};
 
 interface TableProps<T> {
   isLoading: Boolean;
@@ -13,11 +16,16 @@ interface TableProps<T> {
   keyExtractor: (item: T) => string;
   tableHeaders: Array<string>;
   isSortIncrise: boolean;
+  //TableComponent: React.ComponentType<TableItemProps<T>>;
+
   indexSelectedTableHeader: number;
   sortHandler: (e: React.MouseEvent<HTMLButtonElement>, index: number) => void;
 }
 
-const Table = <T extends unknown>(props: TableProps<T>) => {
+const Table = <T extends unknown>({
+  //TableComponent,
+  ...props
+}: TableProps<T>) => {
   return (
     <div className="users__list">
       {props.isLoading ? (
@@ -39,7 +47,8 @@ const Table = <T extends unknown>(props: TableProps<T>) => {
           </div>
 
           {props.data?.map((item: T) => (
-            <UserItem key={props.keyExtractor(item)} user={item} />
+            //<TableComponent item={item} key={props.keyExtractor(item)} />
+            <UserItem user={item} key={props.keyExtractor(item)} />
           ))}
         </>
       )}
