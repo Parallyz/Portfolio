@@ -1,17 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AlertType } from "../../models/models";
 
 type AppSliceState = {
- 
   isModal: boolean;
-  counter: number;
-  error: string;
+  isError: boolean;
+
+  alert: string;
+  alertType: AlertType;
 };
 
 const initialState: AppSliceState = {
- 
   isModal: false,
-  counter: 0,
-  error: "",
+  isError: false,
+  alert: "",
+  alertType: AlertType.Error,
 };
 
 const AppSlice = createSlice({
@@ -24,12 +26,16 @@ const AppSlice = createSlice({
     hideModal(state) {
       state.isModal = false;
     },
-   
-    addCount(state, action: PayloadAction<number>) {
-      state.counter += action.payload;
+    showError(state, message: PayloadAction<string>) {
+      state.isError = true;
+      state.alert = message.payload || "Some error";
     },
-    setError(state, action: PayloadAction<string>) {
-      state.error = action.payload || "Default error";
+    hideError(state) {
+      state.isError = false;
+    },
+
+    setAlertType(state, action: PayloadAction<AlertType>) {
+      state.alertType = action.payload || AlertType.Error;
     },
   },
 });

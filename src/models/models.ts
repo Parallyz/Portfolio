@@ -121,3 +121,10 @@ export const userSortKeys: UserSortKeys = {
   Birth: "birthDate",
   Gender: "gender",
 };
+
+export enum AlertType {
+  Error,
+  Warning,
+  Success,
+  Info,
+}

@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { adminRoutes } from "../router/Router";
+import { adminRoutes } from "../../router/Router";
 import SideMenuItem from "./SideMenuItem";
 
 type AdminSideMenuProps = {

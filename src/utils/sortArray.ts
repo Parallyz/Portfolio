@@ -5,9 +5,12 @@ export const sortedArray = <T>(
 ): Array<T> => {
   const copy: Array<T> = JSON.parse(JSON.stringify(arr));
   return copy.sort((a, b) => {
-    if (orderByIncrement) return a[key] > b[key] ? 1 : -1;
-    else {
-      return a[key] < b[key] ? 1 : -1;
-    }
+    return a[key] > b[key]
+      ? orderByIncrement
+        ? 1
+        : -1
+      : orderByIncrement
+      ? -1
+      : 1;
   });
 };

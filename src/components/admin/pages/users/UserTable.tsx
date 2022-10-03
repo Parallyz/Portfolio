@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useAppActions } from "../../../../hooks/actions";
 import { useDebounce } from "../../../../hooks/debounce";
 import { useAppSelector } from "../../../../hooks/redux";
 import { User, userSortKeys } from "../../../../models/models";
@@ -7,6 +8,8 @@ import {
   useLazySearchUsersQuery,
 } from "../../../../redux/user/user.api";
 import { sortedArray } from "../../../../utils/sortArray";
+import Alert from "../../../alert/Alert";
+import Loader from "../../../modal/Loader";
 import ButtonPagintation from "../../../table/pagintation/ButtonPagintation";
 import Table from "../../../table/Table";
 import TableHeader from "../../../table/TableHeader";
@@ -23,22 +26,20 @@ const UserTable = () => {
 
   const { searchUserField } = useAppSelector((state) => state.users);
 
+  const { showError } = useAppActions();
+
   const [
     fetchSearchUsers,
     {
-      isError: fetchsearchUsersError,
-      isLoading: fetchSearchUsersLoading,
-      data: fetchUserSearchList,
+      isError: isSearchUsersError,
+      isLoading: isSearchUsersLoading,
+      data: dataUserSearchList,
     },
   ] = useLazySearchUsersQuery();
 
   const [
     fetchUsers,
-    {
-      isError: fetchUsersError,
-      isLoading: fetchUsersLoading,
-      data: fetchUserList,
-    },
+    { isError: isUsersError, isLoading: isUsersLoading, data: dataUserList },
   ] = useLazyGetUsersQuery();
 
   const loadUsersCallback = useCallback(() => {
@@ -53,7 +54,7 @@ const UserTable = () => {
     //  (currentPage - 1) * perPage > total
     //    ? total - _limit
     //    : (currentPage - 1) * perPage;
-    if (!fetchUserSearchList?.users)
+    if (!dataUserSearchList?.users)
       fetchUsers({ skip: (currentPage - 1) * perPage, limit: perPage });
 
     //fetchUsers({ skip: _skip, limit: _limit });
@@ -67,30 +68,26 @@ const UserTable = () => {
 
   //? Users total count
   useEffect(() => {
-    if (!fetchUsersLoading && fetchUserList?.users)
-      setTotal(fetchUserList?.total);
-    if (!fetchSearchUsersLoading && fetchUserSearchList?.users) {
-      setTotal(fetchUserSearchList?.users.length);
+    if (!isUsersLoading && dataUserList?.users && !searchUserField) {
+      setTotal(dataUserList?.total);
+    }
+    if (!isSearchUsersLoading && dataUserSearchList?.users) {
+      setTotal(dataUserSearchList?.users.length);
       if (total < perPage) {
         setPerPage(total);
       }
     }
-  }, [fetchSearchUsersLoading, total, perPage, fetchUsersLoading]);
+  }, [isSearchUsersLoading, total, perPage, isUsersLoading]);
 
   //? Users-load
   useEffect(() => {
-    if (!fetchUsersLoading && fetchUserList?.users) {
-      setUserData(fetchUserList?.users);
+    if (!isUsersLoading && dataUserList?.users && !searchUserField) {
+      setUserData(dataUserList?.users);
     }
-    if (!fetchSearchUsersLoading && fetchUserSearchList?.users) {
-      setUserData(fetchUserSearchList?.users);
+    if (!isSearchUsersLoading && dataUserSearchList?.users) {
+      setUserData(dataUserSearchList?.users);
     }
-  }, [
-    fetchSearchUsersLoading,
-    fetchUsersLoading,
-    fetchUserList?.users,
-    fetchUserSearchList?.users,
-  ]);
+  }, [isSearchUsersLoading, isUsersLoading]);
 
   //? Limit change load
   useEffect(() => {
@@ -102,14 +99,12 @@ const UserTable = () => {
     }
   }, [debounceLimit, currentPage, searchUserField]);
 
-  //const sortData = useCallback(
-  //  (sortedField: string, orderByIncrement: boolean = true) => {
-  //    setUserData(
-  //      sortedArray(userData, userSortKeys[sortedField], orderByIncrement)
-  //    );
-  //  },
-  //  [userData]
-  //);
+  //? Error
+  useEffect(() => {
+    if (isUsersError) {
+      showError("Error on load");
+    }
+  }, [isUsersError]);
 
   const getPagintationInfoString = (): string => {
     return `${(currentPage - 1) * perPage} - ${
@@ -149,14 +144,14 @@ const UserTable = () => {
     if (userSortKeys[field]) {
       if (selectedHeader === index && isSortOrderInc) {
         setIsSortOrderInc(false);
-
-        setUserData(sortedArray(userData, userSortKeys[field], false));
+        if (userData)
+          setUserData(sortedArray(userData, userSortKeys[field], false));
         //  sortData(field, false);
       } else {
         setIsSortOrderInc(true);
         // sortData(field);
         setSelectedHeader(index);
-        setUserData(sortedArray(userData, userSortKeys[field]));
+        if (userData) setUserData(sortedArray(userData, userSortKeys[field]));
       }
     }
   };
@@ -164,47 +159,54 @@ const UserTable = () => {
   return (
     <div className="table">
       <TableHeader title={"Users"} />
-      <Table<User>
-        isLoading={fetchSearchUsersLoading}
-        data={userData}
-        tableHeaders={Object.keys(userSortKeys)}
-        keyExtractor={({ id }) => id.toString()}
-        isSortIncrise={isSortOrderInc}
-        indexSelectedTableHeader={selectedHeader}
-        sortHandler={sortHandler}
-        //TableComponent={UserItem}
-      />
-      <div className="table__pagination pagination">
-        <div className="pagination__limit">
-          Rows per page:
-          <input
-            type="number"
-            value={perPage}
-            max={"20"}
-            min={"1"}
-            disabled={currentPage * perPage >= total}
-            onChange={(e) => {
-              perPageHandler(e);
-            }}
-          />
-        </div>
-        <div className="pagination__pages">
-          <div>{getPagintationInfoString()}</div>
-          <div className="pagination__arrows">
-            <ButtonPagintation
-              disabled={currentPage < 2}
-              onClick={() => changePageHandler(currentPage - 1)}
-              img={"./assets/img/admin/svg/arrow-left.svg"}
+      {isUsersLoading && !isUsersError ? (
+        <Loader />
+      ) : (
+        <>
+          <>
+            <Table
+              data={userData}
+              tableHeaders={Object.keys(userSortKeys)}
+              keyExtractor={({ id }) => id.toString()}
+              isSortIncrise={isSortOrderInc}
+              indexSelectedTableHeader={selectedHeader}
+              sortHandler={sortHandler}
+              //TableComponent={UserItem}
             />
-            <ButtonPagintation
-              disabled={currentPage * perPage >= total}
-              onClick={() => changePageHandler(currentPage + 1)}
-              img={"./assets/img/admin/svg/arrow-left.svg"}
-              isMirroredImg={true}
-            />
-          </div>
-        </div>
-      </div>
+            <div className="table__pagination pagination">
+              <div className="pagination__limit">
+                Rows per page:
+                <input
+                  type="number"
+                  value={perPage}
+                  max={"20"}
+                  min={"1"}
+                  disabled={currentPage * perPage >= total}
+                  onChange={(e) => {
+                    perPageHandler(e);
+                  }}
+                />
+              </div>
+              <div className="pagination__pages">
+                <div>{getPagintationInfoString()}</div>
+                <div className="pagination__arrows">
+                  <ButtonPagintation
+                    disabled={currentPage < 2}
+                    onClick={() => changePageHandler(currentPage - 1)}
+                    img={"./assets/img/admin/svg/arrow-left.svg"}
+                  />
+                  <ButtonPagintation
+                    disabled={currentPage * perPage >= total}
+                    onClick={() => changePageHandler(currentPage + 1)}
+                    img={"./assets/img/admin/svg/arrow-left.svg"}
+                    isMirroredImg={true}
+                  />
+                </div>
+              </div>
+            </div>
+          </>
+        </>
+      )}
     </div>
   );
 };
