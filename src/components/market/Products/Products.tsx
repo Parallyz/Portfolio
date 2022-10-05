@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { IProductItem } from "../../../models/models";
 import { useLazyGetProductsQuery } from "../../../redux/market/market.api";
 
-import Loader from "../../modal/Loader";
+import Loader from "../../loader/Loader";
 
 import ProductItem from "./ProductItem";
 import { ProductList } from "./ProductList";

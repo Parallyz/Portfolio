@@ -3,7 +3,7 @@ import Alert from "../../../alert/Alert";
 import AdminHeader from "../../AdminHeader";
 import UserTable from "./UserTable";
 
-const Users = () => {
+const UsersPage = () => {
   return (
     <>
       <AdminHeader title="Users" />
@@ -13,4 +13,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default UsersPage;

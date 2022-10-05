@@ -9,7 +9,7 @@ import { adminPath } from "../../models/models";
 import Overview from "../admin/pages/overview/Overview";
 import Settings from "../admin/pages/settings/Settings";
 import Tickets from "../admin/pages/tickets/Tickets";
-import Users from "../admin/pages/users/Users";
+import UsersPage from "../admin/pages/users/UsersPage";
 
 //export const publicRoutes = [
 //  { path: "/", element: <App /> },
@@ -45,7 +45,7 @@ export const adminRoutes: adminPath[] = [
   },
   {
     path: "/users",
-    element: <Users />,
+    element: <UsersPage />,
     name: "Users",
     icon: imgUsers,
   },

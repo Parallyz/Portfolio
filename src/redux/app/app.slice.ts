@@ -26,11 +26,11 @@ const AppSlice = createSlice({
     hideModal(state) {
       state.isModal = false;
     },
-    showError(state, message: PayloadAction<string>) {
+    showAlert(state, message: PayloadAction<string>) {
       state.isError = true;
       state.alert = message.payload || "Some error";
     },
-    hideError(state) {
+    hideAlert(state) {
       state.isError = false;
     },
 

@@ -8,7 +8,7 @@ import { AlertType } from "../../models/models";
 
 const Alert = () => {
   const { isError, alert, alertType } = useAppSelector((state) => state.app);
-  const { hideError } = useAppActions();
+  const { hideAlert: hideError } = useAppActions();
 
   useEffect(() => {
     if (isError) {
@@ -51,11 +51,8 @@ const Alert = () => {
       };
     }
   }, [isError]);
-  return (
-    <>
-      <ToastContainer />
-    </>
-  );
+
+  return <ToastContainer />;
 };
 
 export default React.memo(Alert);

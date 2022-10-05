@@ -8,11 +8,11 @@ import {
   useLazySearchUsersQuery,
 } from "../../../../redux/user/user.api";
 import { sortedArray } from "../../../../utils/sortArray";
-import Alert from "../../../alert/Alert";
-import Loader from "../../../modal/Loader";
+import Loader from "../../../loader/Loader";
 import ButtonPagintation from "../../../table/pagintation/ButtonPagintation";
 import Table from "../../../table/Table";
 import TableHeader from "../../../table/TableHeader";
+import UserList from "./UserList";
 
 const UserTable = () => {
   const [perPage, setPerPage] = useState<number>(10);
@@ -26,7 +26,7 @@ const UserTable = () => {
 
   const { searchUserField } = useAppSelector((state) => state.users);
 
-  const { showError } = useAppActions();
+  const { showAlert: showError } = useAppActions();
 
   const [
     fetchSearchUsers,
@@ -54,11 +54,18 @@ const UserTable = () => {
     //  (currentPage - 1) * perPage > total
     //    ? total - _limit
     //    : (currentPage - 1) * perPage;
-    if (!dataUserSearchList?.users)
-      fetchUsers({ skip: (currentPage - 1) * perPage, limit: perPage });
+    //  if (userData.length === 0)
+    fetchUsers({ skip: (currentPage - 1) * perPage, limit: perPage });
 
     //fetchUsers({ skip: _skip, limit: _limit });
-  }, [debounceLimit, currentPage]);
+  }, [debounceLimit, currentPage, userData]);
+
+  const loadUsers = () => {
+    console.log("Load func");
+
+    if (userData.length === 0)
+      fetchUsers({ skip: (currentPage - 1) * perPage, limit: perPage });
+  };
 
   const searchUsersCallback = useCallback(() => {
     if (searchUserField) {
@@ -71,29 +78,44 @@ const UserTable = () => {
     if (!isUsersLoading && dataUserList?.users && !searchUserField) {
       setTotal(dataUserList?.total);
     }
-    if (!isSearchUsersLoading && dataUserSearchList?.users) {
-      setTotal(dataUserSearchList?.users.length);
-      if (total < perPage) {
-        setPerPage(total);
-      }
-    }
-  }, [isSearchUsersLoading, total, perPage, isUsersLoading]);
+    //if (!isSearchUsersLoading && dataUserSearchList?.users) {
+    //  setTotal(dataUserSearchList?.users.length);
+    //  if (total < perPage) {
+    //    setPerPage(total);
+    //  }
+    //}
+  }, [
+    isSearchUsersLoading,
+    total,
+    perPage,
+    isUsersLoading,
+    dataUserList?.users,
+  ]);
+
+  useEffect(() => {
+    console.log("Loading", isUsersLoading);
+  }, [isUsersLoading]);
 
   //? Users-load
   useEffect(() => {
-    if (!isUsersLoading && dataUserList?.users && !searchUserField) {
+    console.log("User Loading", isUsersLoading);
+    console.log("User Loading", dataUserList?.users);
+
+    if (!isUsersLoading && dataUserList?.users) {
+      //&& !searchUserField) {
       setUserData(dataUserList?.users);
     }
     if (!isSearchUsersLoading && dataUserSearchList?.users) {
       setUserData(dataUserSearchList?.users);
     }
-  }, [isSearchUsersLoading, isUsersLoading]);
+  }, [isSearchUsersLoading, isUsersLoading, dataUserList?.users]);
 
-  //? Limit change load
+  //? On page load
   useEffect(() => {
-    if (searchUserField) {
-      searchUsersCallback();
-    }
+    //if (searchUserField) {
+    //  searchUsersCallback();
+    //}
+
     if (debounceLimit && !searchUserField) {
       loadUsersCallback();
     }
@@ -163,48 +185,46 @@ const UserTable = () => {
         <Loader />
       ) : (
         <>
-          <>
-            <Table
-              data={userData}
-              tableHeaders={Object.keys(userSortKeys)}
-              keyExtractor={({ id }) => id.toString()}
-              isSortIncrise={isSortOrderInc}
-              indexSelectedTableHeader={selectedHeader}
-              sortHandler={sortHandler}
-              //TableComponent={UserItem}
-            />
-            <div className="table__pagination pagination">
-              <div className="pagination__limit">
-                Rows per page:
-                <input
-                  type="number"
-                  value={perPage}
-                  max={"20"}
-                  min={"1"}
+          <Table
+            data={userData}
+            tableHeaders={Object.keys(userSortKeys)}
+            keyExtractor={({ id }) => id.toString()}
+            isSortIncrise={isSortOrderInc}
+            indexSelectedTableHeader={selectedHeader}
+            sortHandler={sortHandler}
+            //TableList={<UserList data={userData} />}
+          />
+          <div className="table__pagination pagination">
+            <div className="pagination__limit">
+              Rows per page:
+              <input
+                type="number"
+                value={perPage}
+                max={"20"}
+                min={"1"}
+                disabled={currentPage * perPage >= total}
+                onChange={(e) => {
+                  perPageHandler(e);
+                }}
+              />
+            </div>
+            <div className="pagination__pages">
+              <div>{getPagintationInfoString()}</div>
+              <div className="pagination__arrows">
+                <ButtonPagintation
+                  disabled={currentPage < 2}
+                  onClick={() => changePageHandler(currentPage - 1)}
+                  img={"./assets/img/admin/svg/arrow-left.svg"}
+                />
+                <ButtonPagintation
                   disabled={currentPage * perPage >= total}
-                  onChange={(e) => {
-                    perPageHandler(e);
-                  }}
+                  onClick={() => changePageHandler(currentPage + 1)}
+                  img={"./assets/img/admin/svg/arrow-left.svg"}
+                  isMirroredImg={true}
                 />
               </div>
-              <div className="pagination__pages">
-                <div>{getPagintationInfoString()}</div>
-                <div className="pagination__arrows">
-                  <ButtonPagintation
-                    disabled={currentPage < 2}
-                    onClick={() => changePageHandler(currentPage - 1)}
-                    img={"./assets/img/admin/svg/arrow-left.svg"}
-                  />
-                  <ButtonPagintation
-                    disabled={currentPage * perPage >= total}
-                    onClick={() => changePageHandler(currentPage + 1)}
-                    img={"./assets/img/admin/svg/arrow-left.svg"}
-                    isMirroredImg={true}
-                  />
-                </div>
-              </div>
             </div>
-          </>
+          </div>
         </>
       )}
     </div>

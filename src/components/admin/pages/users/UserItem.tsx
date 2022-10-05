@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
-import { User } from "../../../../models/models";
+import { AlertType, User } from "../../../../models/models";
 import EditSvg from "../../../../assets/img/admin/svg/edit.svg";
 import DeleteSvg from "../../../../assets/img/admin/svg/bucket.svg";
 import { useLazyDeleteUserQuery } from "../../../../redux/user/user.api";
+import { useAppSelector } from "../../../../hooks/redux";
+import { useAppActions } from "../../../../hooks/actions";
 
 interface UserItemProps {
   item: User;
@@ -12,9 +14,17 @@ const UserItem = ({ item }: UserItemProps) => {
   const [deleteUser, { isError, isLoading, data: response }] =
     useLazyDeleteUserQuery();
 
+  const { showAlert, setAlertType } = useAppActions();
+
   useEffect(() => {
-    if (response) console.log("is Deleted", response.isDeleted);
-  }, [response]);
+    if (response) {
+      setAlertType(AlertType.Success);
+      showAlert("Deleted succesfull");
+    } else if (isError) {
+      setAlertType(AlertType.Error);
+      showAlert("Error on delete ");
+    }
+  }, [isLoading]);
 
   const deleteHandler = (id: number): void => {
     deleteUser(id);
