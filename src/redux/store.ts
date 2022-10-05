@@ -3,7 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { marketApi } from "./market/market.api";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { appReducer } from "./app/app.slice";
-import { usersReducer } from "./user/userSlide";
+import { usersReducer } from "./user/userSlice";
 
 export const store = configureStore({
   reducer: {

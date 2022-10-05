@@ -9,9 +9,11 @@ import {
 } from "../../../../redux/user/user.api";
 import { sortedArray } from "../../../../utils/sortArray";
 import Loader from "../../../loader/Loader";
+import Modal from "../../../modal/Modal";
 import ButtonPagintation from "../../../table/pagintation/ButtonPagintation";
 import Table from "../../../table/Table";
 import TableHeader from "../../../table/TableHeader";
+import UserModalItem from "./UserModalItem";
 import UserList from "./UserList";
 
 const UserTable = () => {
@@ -54,18 +56,11 @@ const UserTable = () => {
     //  (currentPage - 1) * perPage > total
     //    ? total - _limit
     //    : (currentPage - 1) * perPage;
-    //  if (userData.length === 0)
-    fetchUsers({ skip: (currentPage - 1) * perPage, limit: perPage });
+    if (!searchUserField)
+      fetchUsers({ skip: (currentPage - 1) * perPage, limit: perPage });
 
     //fetchUsers({ skip: _skip, limit: _limit });
   }, [debounceLimit, currentPage, userData]);
-
-  const loadUsers = () => {
-    console.log("Load func");
-
-    if (userData.length === 0)
-      fetchUsers({ skip: (currentPage - 1) * perPage, limit: perPage });
-  };
 
   const searchUsersCallback = useCallback(() => {
     if (searchUserField) {
@@ -77,13 +72,16 @@ const UserTable = () => {
   useEffect(() => {
     if (!isUsersLoading && dataUserList?.users && !searchUserField) {
       setTotal(dataUserList?.total);
+      setSelectedHeader(-1);
     }
-    //if (!isSearchUsersLoading && dataUserSearchList?.users) {
-    //  setTotal(dataUserSearchList?.users.length);
-    //  if (total < perPage) {
-    //    setPerPage(total);
-    //  }
-    //}
+    if (!isSearchUsersLoading && dataUserSearchList?.users) {
+      setTotal(dataUserSearchList?.users.length);
+      setSelectedHeader(-1);
+
+      if (total < perPage) {
+        setPerPage(total);
+      }
+    }
   }, [
     isSearchUsersLoading,
     total,
@@ -92,17 +90,9 @@ const UserTable = () => {
     dataUserList?.users,
   ]);
 
-  useEffect(() => {
-    console.log("Loading", isUsersLoading);
-  }, [isUsersLoading]);
-
   //? Users-load
   useEffect(() => {
-    console.log("User Loading", isUsersLoading);
-    console.log("User Loading", dataUserList?.users);
-
-    if (!isUsersLoading && dataUserList?.users) {
-      //&& !searchUserField) {
+    if (!isUsersLoading && dataUserList?.users && !searchUserField) {
       setUserData(dataUserList?.users);
     }
     if (!isSearchUsersLoading && dataUserSearchList?.users) {
@@ -112,12 +102,14 @@ const UserTable = () => {
 
   //? On page load
   useEffect(() => {
-    //if (searchUserField) {
-    //  searchUsersCallback();
-    //}
+    if (searchUserField) {
+      searchUsersCallback();
+      setSelectedHeader(-1);
+    }
 
     if (debounceLimit && !searchUserField) {
       loadUsersCallback();
+      setSelectedHeader(-1);
     }
   }, [debounceLimit, currentPage, searchUserField]);
 
@@ -186,13 +178,13 @@ const UserTable = () => {
       ) : (
         <>
           <Table
-            data={userData}
+            //data={userData}
             tableHeaders={Object.keys(userSortKeys)}
-            keyExtractor={({ id }) => id.toString()}
+            //keyExtractor={({ id }) => id.toString()}
             isSortIncrise={isSortOrderInc}
             indexSelectedTableHeader={selectedHeader}
             sortHandler={sortHandler}
-            //TableList={<UserList data={userData} />}
+            TableList={<UserList data={userData} />}
           />
           <div className="table__pagination pagination">
             <div className="pagination__limit">
@@ -225,6 +217,9 @@ const UserTable = () => {
               </div>
             </div>
           </div>
+          <Modal>
+            <UserModalItem />
+          </Modal>
         </>
       )}
     </div>

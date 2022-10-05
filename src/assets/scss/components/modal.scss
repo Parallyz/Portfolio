@@ -7,9 +7,8 @@
    bottom: 0;
    z-index: 100;
    &__body {
-      background-color: white;
-      padding: 20px;
-      width: 700px;
+      background-color: $color-white;
+
       margin: 0 auto;
       position: relative;
       top: 50%;
@@ -21,5 +20,8 @@
       display: inline-block;
       width: 100%;
       text-align: center;
+   }
+   &--hide {
+      display: none;
    }
 }

@@ -30,7 +30,19 @@ export const userApi = createApi({
         url: `users/search?q=${search}`,
       }),
     }),
+    addUser: build.mutation<User, Omit<User, "id">>({
+      query: (user) => ({
+        url: `users/add`,
+        body: user,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
-export const { useLazyGetUsersQuery, useLazyDeleteUserQuery,useLazySearchUsersQuery } = userApi;
+export const {
+  useLazyGetUsersQuery,
+  useLazyDeleteUserQuery,
+  useLazySearchUsersQuery,
+  useAddUserMutation,
+} = userApi;

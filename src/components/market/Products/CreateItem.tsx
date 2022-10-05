@@ -16,7 +16,7 @@ function ModalTest() {
   return (
     <>
       {modal && (
-        <Modal onClose={() => setModal(false)}>
+        <Modal>
           <form onSubmit={submitHandler}>
             <input
               type="text"

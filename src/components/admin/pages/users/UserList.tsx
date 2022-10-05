@@ -8,11 +8,11 @@ interface UserListProps {
 
 const UserList = ({ data }: UserListProps) => {
   return (
-    <>
+    <tr>
       {data?.map((item: User) => (
         <UserItem item={item} key={item.id} />
       ))}
-    </>
+    </tr>
   );
 };
 

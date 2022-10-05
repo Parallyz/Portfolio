@@ -30,9 +30,14 @@
          font-size: toRem(14);
          line-height: 20px;
          color: $color-gray-90;
+         transition: all 0.3s ease-in-out;
+         border-radius: 5px;
 
          &:hover {
             background-color: $color-gray-40;
+            img {
+               filter: invert(72%) sepia(96%) saturate(369%) hue-rotate(97deg) brightness(84%) contrast(89%);
+            }
          }
          padding: toRem(10);
       }
@@ -50,7 +55,7 @@
       line-height: 18px;
       color: $color-gray-90;
       letter-spacing: 0.2px;
-      margin-bottom: toRem(10);
+      margin-bottom: toRem(10) !important;
       display: flex;
       justify-content: unset;
       max-width: calc(100% - 56px);
@@ -64,6 +69,8 @@
             align-items: center;
             color: $color-gray-90;
             padding: toRem(10);
+            transition: background-color 0.3s ease-in-out;
+            border-radius: 5px;
             &:hover {
                background-color: $color-gray-40;
             }

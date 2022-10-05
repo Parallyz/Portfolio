@@ -19,7 +19,7 @@ const TableHeaderTab = ({
   index,
 }: TableHeaderTabProps) => {
   return (
-    <div className="header__block">
+    <th className="header__block">
       <button
         className={isActive ? "header--active" : ""}
         onClick={(e) => clickEvent(e, index)}
@@ -34,7 +34,7 @@ const TableHeaderTab = ({
         />
         {name}
       </button>
-    </div>
+    </th>
   );
 };
 

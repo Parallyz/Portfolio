@@ -36,7 +36,7 @@ const UserItem = ({ item }: UserItemProps) => {
   };
 
   return (
-    <div className="item">
+    <td className="item">
       <div className="item__img">
         <img src={item.image} loading="lazy" />
       </div>
@@ -82,7 +82,7 @@ const UserItem = ({ item }: UserItemProps) => {
           />
         </button>
       </div>
-    </div>
+    </td>
   );
 };
 

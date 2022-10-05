@@ -20,12 +20,10 @@ const AppSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    showModal(state) {
-      state.isModal = true;
+    setStateModal(state, action: PayloadAction<boolean>) {
+      state.isModal = action.payload;
     },
-    hideModal(state) {
-      state.isModal = false;
-    },
+
     showAlert(state, message: PayloadAction<string>) {
       state.isError = true;
       state.alert = message.payload || "Some error";
