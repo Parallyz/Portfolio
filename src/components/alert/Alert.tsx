@@ -1,56 +1,49 @@
 import React, { useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast, ToastOptions } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import { useAppActions } from "../../hooks/actions";
 import { useAppSelector } from "../../hooks/redux";
 import { AlertType } from "../../models/models";
 
-const Alert = () => {
-  const { isError, alert, alertType } = useAppSelector((state) => state.app);
-  const { hideAlert: hideError } = useAppActions();
+interface AlertProps {
+  delayToClose?: number;
+}
 
+const Alert = ({ delayToClose = 5000 }: AlertProps) => {
+  const { alert } = useAppSelector((state) => state.app);
+  const { setStateAlert } = useAppActions();
+  const toastParams: ToastOptions = {
+    autoClose: delayToClose,
+    theme: "colored",
+    pauseOnHover: false,
+  };
   useEffect(() => {
-    if (isError) {
-      switch (alertType) {
+    if (alert.isShow) {
+      switch (alert.type) {
         case AlertType.Error:
-          toast.error(alert, {
-            autoClose: 5000,
-            theme: "colored",
-          });
+          toast.error(alert.text, toastParams);
           break;
         case AlertType.Info:
-          toast.info(alert, {
-            autoClose: 5000,
-            theme: "colored",
-          });
+          toast.info(alert.text, toastParams);
           break;
         case AlertType.Success:
-          toast.success(alert, {
-            autoClose: 5000,
-            theme: "colored",
-          });
+          toast.success(alert.text, toastParams);
           break;
         case AlertType.Warning:
-          toast.warning(alert, {
-            autoClose: 5000,
-            theme: "colored",
-          });
+          toast.warning(alert.text, toastParams);
           break;
         default:
-          toast.error(alert, {
-            theme: "colored",
-            autoClose: 5000,
-          });
+          toast.error(alert.text, toastParams);
       }
       const time = setTimeout(() => {
-        hideError();
-      }, 5000);
+        setStateAlert({ ...alert, isShow: false });
+      }, delayToClose);
       return () => {
         clearTimeout(time);
       };
     }
-  }, [isError]);
+  }, [alert.isShow]);
 
   return <ToastContainer />;
 };

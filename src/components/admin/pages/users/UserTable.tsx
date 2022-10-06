@@ -2,18 +2,16 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useAppActions } from "../../../../hooks/actions";
 import { useDebounce } from "../../../../hooks/debounce";
 import { useAppSelector } from "../../../../hooks/redux";
-import { User, userSortKeys } from "../../../../models/models";
+import { AlertType, User, userSortKeys } from "../../../../models/models";
 import {
   useLazyGetUsersQuery,
   useLazySearchUsersQuery,
 } from "../../../../redux/user/user.api";
 import { sortedArray } from "../../../../utils/sortArray";
 import Loader from "../../../loader/Loader";
-import Modal from "../../../modal/Modal";
 import ButtonPagintation from "../../../table/pagintation/ButtonPagintation";
 import Table from "../../../table/Table";
 import TableHeader from "../../../table/TableHeader";
-import UserModalItem from "./UserModalItem";
 import UserList from "./UserList";
 
 const UserTable = () => {
@@ -28,21 +26,12 @@ const UserTable = () => {
 
   const { searchUserField } = useAppSelector((state) => state.users);
 
-  const { showAlert: showError } = useAppActions();
+  const { setStateAlert: showAlert } = useAppActions();
 
-  const [
-    fetchSearchUsers,
-    {
-      isError: isSearchUsersError,
-      isLoading: isSearchUsersLoading,
-      data: dataUserSearchList,
-    },
-  ] = useLazySearchUsersQuery();
+  const [fetchSearchUsers, fetchSearchUsersResponse] =
+    useLazySearchUsersQuery();
 
-  const [
-    fetchUsers,
-    { isError: isUsersError, isLoading: isUsersLoading, data: dataUserList },
-  ] = useLazyGetUsersQuery();
+  const [fetchUsers, fetchUsersResponse] = useLazyGetUsersQuery();
 
   const loadUsersCallback = useCallback(() => {
     console.log("Callback");
@@ -70,12 +59,19 @@ const UserTable = () => {
 
   //? Users total count
   useEffect(() => {
-    if (!isUsersLoading && dataUserList?.users && !searchUserField) {
-      setTotal(dataUserList?.total);
+    if (
+      !fetchUsersResponse.isLoading &&
+      fetchUsersResponse.data?.users &&
+      !searchUserField
+    ) {
+      setTotal(fetchUsersResponse.data?.total);
       setSelectedHeader(-1);
     }
-    if (!isSearchUsersLoading && dataUserSearchList?.users) {
-      setTotal(dataUserSearchList?.users.length);
+    if (
+      !fetchSearchUsersResponse.isLoading &&
+      fetchSearchUsersResponse.data?.users
+    ) {
+      setTotal(fetchSearchUsersResponse.data?.users.length);
       setSelectedHeader(-1);
 
       if (total < perPage) {
@@ -83,22 +79,33 @@ const UserTable = () => {
       }
     }
   }, [
-    isSearchUsersLoading,
+    fetchSearchUsersResponse.isLoading,
     total,
     perPage,
-    isUsersLoading,
-    dataUserList?.users,
+    fetchUsersResponse.isLoading,
+    fetchUsersResponse.data?.users,
   ]);
 
   //? Users-load
   useEffect(() => {
-    if (!isUsersLoading && dataUserList?.users && !searchUserField) {
-      setUserData(dataUserList?.users);
+    if (
+      !fetchUsersResponse.isLoading &&
+      fetchUsersResponse.data?.users &&
+      !searchUserField
+    ) {
+      setUserData(fetchUsersResponse.data?.users);
     }
-    if (!isSearchUsersLoading && dataUserSearchList?.users) {
-      setUserData(dataUserSearchList?.users);
+    if (
+      !fetchSearchUsersResponse.isLoading &&
+      fetchSearchUsersResponse.data?.users
+    ) {
+      setUserData(fetchSearchUsersResponse.data?.users);
     }
-  }, [isSearchUsersLoading, isUsersLoading, dataUserList?.users]);
+  }, [
+    fetchSearchUsersResponse.isLoading,
+    fetchUsersResponse.isLoading,
+    fetchUsersResponse.data?.users,
+  ]);
 
   //? On page load
   useEffect(() => {
@@ -115,10 +122,10 @@ const UserTable = () => {
 
   //? Error
   useEffect(() => {
-    if (isUsersError) {
-      showError("Error on load");
+    if (fetchUsersResponse.isError) {
+      showAlert({ text: "Error on load", type: AlertType.Error ,isShow:true});
     }
-  }, [isUsersError]);
+  }, [fetchUsersResponse.isError]);
 
   const getPagintationInfoString = (): string => {
     return `${(currentPage - 1) * perPage} - ${
@@ -173,7 +180,7 @@ const UserTable = () => {
   return (
     <div className="table">
       <TableHeader title={"Users"} />
-      {isUsersLoading && !isUsersError ? (
+      {fetchUsersResponse.isLoading && !fetchUsersResponse.isError ? (
         <Loader />
       ) : (
         <>
@@ -217,9 +224,6 @@ const UserTable = () => {
               </div>
             </div>
           </div>
-          <Modal>
-            <UserModalItem />
-          </Modal>
         </>
       )}
     </div>

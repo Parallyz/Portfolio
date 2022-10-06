@@ -12,7 +12,8 @@ export const userApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: URLs.users,
   }),
-  refetchOnFocus: true,
+  refetchOnFocus: false,
+
   endpoints: (build) => ({
     getUsers: build.query<Users, UserQueryParams>({
       query: ({ skip = 0, limit = 30 }) => ({

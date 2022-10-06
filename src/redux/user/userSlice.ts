@@ -4,11 +4,13 @@ import { User } from "../../models/models";
 interface UserSliceState {
   users: Array<User>;
   searchUserField: string;
+  isUserModal: boolean;
 }
 
 const initialState: UserSliceState = {
   users: [],
   searchUserField: "",
+  isUserModal: false,
 };
 
 const UsersSlice = createSlice({
@@ -20,6 +22,9 @@ const UsersSlice = createSlice({
     },
     setSearchField(state, action: PayloadAction<string>) {
       state.searchUserField = action.payload;
+    },
+    setStateUserModal(state, action: PayloadAction<boolean>) {
+      state.isUserModal = action.payload;
     },
   },
 });

@@ -1,40 +1,50 @@
-import React, { useEffect } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { useAppActions } from "../../../../hooks/actions";
+import { useAppSelector } from "../../../../hooks/redux";
 import { AlertType, User } from "../../../../models/models";
 import { useAddUserMutation } from "../../../../redux/user/user.api";
+import Modal from "../../../modal/Modal";
 
 const UserModalItem = () => {
   const [createUser, { isError, isLoading, data }] = useAddUserMutation();
-  const { setStateModal, setAlertType, showAlert } = useAppActions();
+  const { setStateUserModal, setStateAlert: showAlert } = useAppActions();
+  const { isUserModal } = useAppSelector((state) => state.users);
 
-  const addUserHandler = () => {
+  const addUserHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const user: User = {
       username: "New user",
     };
 
     createUser(user);
-    setStateModal(false);
+    setStateUserModal(false);
   };
 
   useEffect(() => {
     if (isError) {
-      setAlertType(AlertType.Error);
-      showAlert("Error on Add");
+      showAlert({ text: "Error on Add", type: AlertType.Error, isShow: true });
     }
   }, [isError]);
 
   useEffect(() => {
     if (!isLoading && !isError && data) {
-      console.log("Add result", data);
-      setAlertType(AlertType.Success);
-      showAlert("Added successfuly");
+      console.log("Add response", data);
+      showAlert({
+        text: "Added successfuly",
+        type: AlertType.Success,
+        isShow: true,
+      });
     }
   }, [isLoading]);
 
   return (
-    <div className="user__modal">
-      <button onClick={() => addUserHandler()}>Add</button>
-    </div>
+    <Modal isOpen={isUserModal} onClose={() => setStateUserModal(false)}>
+      <div className="user__modal">
+        <form onSubmit={(e: FormEvent<HTMLFormElement>) => addUserHandler(e)}>
+          <input type="submit" value="Add" />
+        </form>
+      </div>
+    </Modal>
   );
 };
 
