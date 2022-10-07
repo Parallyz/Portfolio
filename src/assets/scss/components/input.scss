@@ -1,0 +1,27 @@
+.input {
+   &__text {
+      display: block;
+      border: 1px solid $color-gray;
+      width: 100%;
+      border-radius: 10px;
+      padding: toRem(7) toRem(10);
+   }
+   &__file {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+      cursor: pointer;
+      &:focus {
+         outline: 2px solid rgba(255, 255, 255, 0.5);
+         outline: -webkit-focus-ring-color auto 5px;
+      }
+      &:hover {
+         background-color: $color-gray;
+      }
+   }
+}

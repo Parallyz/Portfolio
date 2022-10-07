@@ -7,13 +7,14 @@
    bottom: 0;
    z-index: 100;
    &__body {
+      max-width: toRem(600);
       background-color: $color-white;
-
       margin: 0 auto;
       position: relative;
       top: 50%;
       transform: translate(0, -50%);
       z-index: 101;
+      border-radius: 10px;
    }
 
    &__title {

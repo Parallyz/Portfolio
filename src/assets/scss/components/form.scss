@@ -1,0 +1,37 @@
+.form {
+   display: flex;
+   flex-direction: column;
+   gap: toRem(15);
+   &__footer {
+      display: flex;
+      justify-content: center;
+      gap: toRem(15);
+   }
+   .form-group {
+      width: 100%;
+      position: relative;
+   }
+   .file-area {
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px dashed $color-gray;
+      input[type="file"]:valid {
+         border-color: rgba(0, 255, 0, 0.4);
+         background-color: rgba(0, 255, 0, 0.3);
+      }
+      .label--active {
+         padding-right: 100px;
+      }
+      img {
+         position: absolute;
+         top: 0;
+         right: 0;
+         height: 100%;
+         width: 100px;
+         object-fit: cover;
+         height: 100%;
+      }
+   }
+}

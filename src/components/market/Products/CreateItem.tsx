@@ -16,19 +16,17 @@ function ModalTest() {
   return (
     <>
       {modal && (
-        <Modal>
-          <form onSubmit={submitHandler}>
-            <input
-              type="text"
-              className=""
-              placeholder="Enter product title..."
-              // value={value}
-              //  onChange={changeHandler}
-            />
+        <form onSubmit={submitHandler}>
+          <input
+            type="text"
+            className=""
+            placeholder="Enter product title..."
+            // value={value}
+            //  onChange={changeHandler}
+          />
 
-            <button type="submit"> Submit</button>
-          </form>
-        </Modal>
+          <button type="submit"> Submit</button>
+        </form>
       )}
     </>
   );

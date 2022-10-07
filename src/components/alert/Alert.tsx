@@ -13,10 +13,14 @@ interface AlertProps {
 const Alert = ({ delayToClose = 5000 }: AlertProps) => {
   const { alert } = useAppSelector((state) => state.app);
   const { setStateAlert } = useAppActions();
+  
   const toastParams: ToastOptions = {
     autoClose: delayToClose,
     theme: "colored",
     pauseOnHover: false,
+    onClose(props) {
+      setStateAlert({ ...alert, isShow: false });
+    },
   };
   useEffect(() => {
     if (alert.isShow) {
@@ -36,12 +40,6 @@ const Alert = ({ delayToClose = 5000 }: AlertProps) => {
         default:
           toast.error(alert.text, toastParams);
       }
-      const time = setTimeout(() => {
-        setStateAlert({ ...alert, isShow: false });
-      }, delayToClose);
-      return () => {
-        clearTimeout(time);
-      };
     }
   }, [alert.isShow]);
 

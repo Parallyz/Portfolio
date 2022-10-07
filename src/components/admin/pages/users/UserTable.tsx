@@ -123,7 +123,7 @@ const UserTable = () => {
   //? Error
   useEffect(() => {
     if (fetchUsersResponse.isError) {
-      showAlert({ text: "Error on load", type: AlertType.Error ,isShow:true});
+      showAlert({ text: "Error on load", type: AlertType.Error, isShow: true });
     }
   }, [fetchUsersResponse.isError]);
 

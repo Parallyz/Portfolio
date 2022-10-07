@@ -61,14 +61,20 @@
 
    .notification {
       position: relative;
-      &__count {
+      &::before {
+         content: attr(data-notification);
          border-radius: 50%;
          background-color: $color-blue;
          position: absolute;
-         top: 0;
-         right: 0;
-         width: 8px;
-         height: 8px;
+         font-size: 10px;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         color: $color-white;
+         top: -3px;
+         right: -3px;
+         width: 12px;
+         height: 12px;
          border: 1px solid $color-gray-40;
          z-index: 1;
       }

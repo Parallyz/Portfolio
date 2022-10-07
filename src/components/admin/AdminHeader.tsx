@@ -44,13 +44,12 @@ const AdminHeader = ({ title, children, isNotification }: AdminHeaderProps) => {
               />
             </button>
           </div>
-          <div className=" notification">
+          <div className="notification" data-notification="3">
             <button>
               <img
                 src="assets/img/admin/svg/notification.svg"
                 className="img--svg"
               />
-              {isNotification && <div className="notification__count"></div>}
             </button>
           </div>
         </div>
