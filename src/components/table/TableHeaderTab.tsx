@@ -19,14 +19,14 @@ const TableHeaderTab = ({
   index,
 }: TableHeaderTabProps) => {
   return (
-    <div className="header__block">
+    <th className="header__block">
       <button
-        className={isActive ? "header__active" : ""}
+        className={isActive ? "header--active" : ""}
         onClick={(e) => clickEvent(e, index)}
       >
         <img
           src={img}
-          className="img__svg"
+          className="img--svg"
           style={{
             transform:
               isIncrise && isActive ? "rotate(180deg)" : "rotate(0deg)",
@@ -34,7 +34,7 @@ const TableHeaderTab = ({
         />
         {name}
       </button>
-    </div>
+    </th>
   );
 };
 

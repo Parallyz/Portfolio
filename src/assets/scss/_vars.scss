@@ -1,13 +1,6 @@
 $color-white: #ffffff;
 $color-black: #000000;
 
-$color-primary: #04958f;
-$color-primary-dark: #006a66;
-$color-alt: #ff9900;
-$color-alt-opacity: rgba(255, 153, 0, 0.2);
-$color-primary-hover: #e5f0f0;
-$primary-gradient: linear-gradient(90deg, $color-primary-dark 0%, $color-primary 100%);
-
 $color-gray: #363740;
 $color-gray-90: #9fa2b4;
 $color-gray-80: #a4a6b3;
@@ -18,10 +11,13 @@ $color-gray-50: #c5c7cd;
 $color-gray-40: #f7f8fc;
 
 $color-red: #f12b2c;
-$color-blue: #3751ff;
-$color-red-opacity: rgba(215, 58, 73, 0.2);
-$color-yellow: #fec400;
+$color-red-90: #a70000;
+
 $color-success: #29cc97;
+$color-success-90: #006845;
+
+$color-blue: #3751ff;
+$color-yellow: #fec400;
 
 $color-viber: #ac5b9a;
 $color-telegram: #0eacef;

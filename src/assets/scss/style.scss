@@ -1,15 +1,14 @@
-@import '_mixins/helpers';
+@import "_mixins/helpers";
 
-@import 'reset';
-@import 'fonts';
-@import 'vars';
-@import 'main';
+@import "reset";
+@import "fonts";
+@import "vars";
+@import "main";
 
+@import "blocks/header";
+@import "blocks/footer";
+@import "blocks/section";
 
+@import "./components/components";
 
-@import 'blocks/header';
-@import 'blocks/footer';
-@import 'blocks/section';
-
-@import 'admin';
-
+@import "admin/admin";

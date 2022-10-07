@@ -1,24 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 interface ModalProps {
   children: React.ReactNode;
-  title: string;
+  isOpen: boolean;
   onClose: () => void;
 }
 
-function Modal({ children, title, onClose }: ModalProps) {
+const Modal = ({ children, isOpen, onClose }: ModalProps) => {
   const dontCloseHandler = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
   };
 
   return (
-    <div className="modal" onClick={onClose}>
+    <div className={isOpen ? "modal" : "modal--hide"} onClick={onClose}>
       <div className="modal__body" onClick={dontCloseHandler}>
-        <h2 className="modal__title">{title}</h2>
         {children}
       </div>
     </div>
   );
-}
+};
 
-export default Modal;
+export default React.memo(Modal);

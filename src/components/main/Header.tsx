@@ -1,19 +1,13 @@
 import React from "react";
 
-
-import Loader from "../modal/Loader";
-
+import Loader from "../loader/Loader";
 
 const Header = () => {
-
-
-
   return (
     <>
       <header>
         <nav></nav>
       </header>
- 
     </>
   );
 };

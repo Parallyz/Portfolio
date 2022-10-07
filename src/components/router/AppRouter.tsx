@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { adminPath } from "../../models/models";
-import { AdminSideMenu } from "../admin/AdminSideMenu";
+import { AdminSideMenu } from "../admin/sideMenu/AdminSideMenu";
 import ErrorPage from "../error/ErrorPage";
-import { adminRoutes, publicRoutes } from "./Router";
+import { adminRoutes } from "./Router";
 
 const AppRouter = () => {
   return (

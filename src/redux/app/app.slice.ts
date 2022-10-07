@@ -1,35 +1,33 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AlertType } from "../../models/models";
 
+type AlertObjType = {
+  text: string;
+  type: AlertType;
+  isShow: boolean;
+};
 type AppSliceState = {
- 
   isModal: boolean;
-  counter: number;
-  error: string;
+  alert: AlertObjType;
 };
 
 const initialState: AppSliceState = {
- 
   isModal: false,
-  counter: 0,
-  error: "",
+
+  alert: { text: "", type: AlertType.Error, isShow: false },
 };
 
 const AppSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    showModal(state) {
-      state.isModal = true;
+    setStateModal(state, action: PayloadAction<boolean>) {
+      state.isModal = action.payload;
     },
-    hideModal(state) {
-      state.isModal = false;
-    },
-   
-    addCount(state, action: PayloadAction<number>) {
-      state.counter += action.payload;
-    },
-    setError(state, action: PayloadAction<string>) {
-      state.error = action.payload || "Default error";
+    setStateAlert(state, message: PayloadAction<AlertObjType>) {
+      state.alert.isShow = message.payload.isShow;
+      state.alert.text = message.payload.text || "Some error";
+      state.alert.type = message.payload.type || AlertType.Error;
     },
   },
 });

@@ -57,6 +57,7 @@ export interface User {
   ein?: string;
   ssn?: string;
   userAgent?: string;
+  [index: string]: string | any;
 }
 
 export type UserDelete = User & { isDeleted: boolean };
@@ -120,3 +121,10 @@ export const userSortKeys: UserSortKeys = {
   Birth: "birthDate",
   Gender: "gender",
 };
+
+export enum AlertType {
+  Error,
+  Warning,
+  Success,
+  Info,
+}
