@@ -10,11 +10,11 @@
    &--green {
       background-color: $color-success;
       border: 1px solid $color-success-90;
-      color: $color-success-90;
+      color: $color-white;
    }
    &--red {
       border: 1px solid $color-red-90;
-      color: $color-red-90;
+      color: $color-white;
       background-color: $color-red;
    }
 }

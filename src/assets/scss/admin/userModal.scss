@@ -8,15 +8,4 @@
          margin-bottom: toRem(20);
       }
    }
-   &__form {
-      .input {
-         margin-top: 10px;
-         &[type="submit"] {
-            background-color: $color-success;
-            padding: 10px;
-            max-width: 100px;
-            margin: 0 auto;
-         }
-      }
-   }
 }
