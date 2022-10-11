@@ -5,35 +5,15 @@ import { AlertType, User } from "../../../../models/models";
 import { useAddUserMutation } from "../../../../redux/user/user.api";
 import Modal from "../../../modal/Modal";
 import Select from "react-select";
+import InputSelect from "../../../input/InputSelect";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
   { value: "strawberry", label: "Strawberry" },
   { value: "vanilla", label: "Vanilla" },
+  { value: "blackberry", label: "Blackberry" },
 ];
 
-//const customStyles = {
-//  option: (provided: any, state: any) => ({
-//    ...provided,
-//    borderBottom: "1px dotted pink",
-//    color: state.isSelected ? "red" : "blue",
-//    padding: 20,
-//  }),
-//  control: () => ({
-//    backgroundColor: "#f7f8fc",
-//    display: "flex",
-//    border: "1px solid #a4a6b3",
-//    marginTop: "10px",
-//    borderRadius: "5px",
-//    padding: "3px",
-//  }),
-//  singleValue: (provided: any, state: any) => {
-//    const opacity = state.isDisabled ? 0.5 : 1;
-//    const transition = "opacity 300ms";
-
-//    return { ...provided, opacity, transition };
-//  },
-//};
 const UserModalItem = () => {
   const [createUser, { isError, isLoading, data }] = useAddUserMutation();
   const { setStateUserModal, setStateAlert } = useAppActions();
@@ -163,13 +143,10 @@ const UserModalItem = () => {
           </div>
           <div className="form__group form__group-select  input input--select">
             <label>Select option :</label>
-            <Select
-              //styles={customStyles}
-              isSearchable={true}
-              classNamePrefix="input input--select"
-              className="input--select-container"
-              defaultValue={selectedOption}
-              onChange={setSelectedOption}
+
+            <InputSelect
+              value={selectedOption}
+              setValue={setSelectedOption}
               options={options}
             />
           </div>

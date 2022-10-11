@@ -23,16 +23,8 @@ const AdminHeader = ({ title, children, isNotification }: AdminHeaderProps) => {
     <header className="header">
       <div className="header__title">{title}</div>
       <div className="header__content">
-        {/*<div className="header__input">
-          <input
-            className=""
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>*/}
-
         <div className="header__btns ">
-          <div>
+          <div className="header__input-container ">
             <button
             //onClick={() => {
             //  searchHandler;
@@ -40,9 +32,15 @@ const AdminHeader = ({ title, children, isNotification }: AdminHeaderProps) => {
             >
               <img
                 src="./assets/img/admin/svg/search.svg"
-                className="img--svg img--svg--green"
+                className="img--svg "
               />
             </button>
+            <input
+              placeholder="Type to Search..."
+              className="input input--text input--search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
           <div className="notification" data-notification="3">
             <button>
