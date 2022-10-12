@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
 import { AlertType, User } from "../../../../models/models";
-import { useLazyDeleteUserQuery } from "../../../../redux/user/user.api";
+import React, { useEffect } from "react";
+
 import { useAppActions } from "../../../../hooks/actions";
+import { useLazyDeleteUserQuery } from "../../../../redux/user/user.api";
 
 interface UserItemProps {
   item: User;
@@ -16,7 +17,7 @@ const UserItem = ({ item }: UserItemProps) => {
   useEffect(() => {
     if (response) {
       showAlert({
-        text: "Deleted succesfull",
+        text: "Deleted successfully",
         type: AlertType.Success,
         isShow: true,
       });

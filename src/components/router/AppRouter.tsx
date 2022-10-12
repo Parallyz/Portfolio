@@ -1,18 +1,15 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { adminPath } from "../../models/models";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
 import { AdminSideMenu } from "../admin/sideMenu/AdminSideMenu";
 import ErrorPage from "../error/ErrorPage";
+import React from "react";
+import { adminPath } from "../../models/models";
 import { adminRoutes } from "./Router";
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
-      {/*<Routes>
-        {publicRoutes.map((route) => (
-          <Route key={route.path} element={route.element} path={route.path} />
-        ))}
-      </Routes>*/}
+  
 
       <AdminSideMenu>
         <Routes>

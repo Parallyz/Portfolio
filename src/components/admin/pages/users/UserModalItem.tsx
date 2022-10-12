@@ -1,11 +1,11 @@
+import { AlertType, User } from "../../../../models/models";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
+
+import InputSelect from "../../../input/InputSelect";
+import Modal from "../../../modal/Modal";
+import { useAddUserMutation } from "../../../../redux/user/user.api";
 import { useAppActions } from "../../../../hooks/actions";
 import { useAppSelector } from "../../../../hooks/redux";
-import { AlertType, User } from "../../../../models/models";
-import { useAddUserMutation } from "../../../../redux/user/user.api";
-import Modal from "../../../modal/Modal";
-import Select from "react-select";
-import InputSelect from "../../../input/InputSelect";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -37,7 +37,7 @@ const UserModalItem = () => {
     console.log(preview);
 
     createUser(user);
-    // resetStates();
+    resetStates();
     setStateUserModal(false);
   };
 
@@ -104,7 +104,7 @@ const UserModalItem = () => {
     if (!isLoading && !isError && data) {
       console.log("Add response", data);
       setStateAlert({
-        text: "Added successfuly",
+        text: "Added successfully",
         type: AlertType.Success,
         isShow: true,
       });

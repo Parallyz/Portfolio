@@ -1,8 +1,9 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { userSortKeys } from "../../models/models";
-import TableHeaderTab from "./TableHeaderTab";
+
 import Sort from "../../assets/img/admin/svg/sort.svg";
+import TableHeaderTab from "./TableHeaderTab";
 import UserItem from "../admin/pages/users/UserItem";
+import { userSortKeys } from "../../models/models";
 
 //type TableItemProps<T> = {
 //  item: T;
@@ -12,7 +13,7 @@ interface TableProps<T> {
   //data: Array<T>;
   //keyExtractor: (item: T) => string;
   tableHeaders: Array<string>;
-  isSortIncrise: boolean;
+  isSortIncrease: boolean;
   //TableComponent: React.ComponentType<TableItemProps<T>>;
   TableList: JSX.Element;
   indexSelectedTableHeader: number;
@@ -33,7 +34,7 @@ const Table = <T extends unknown>({
               name={item}
               index={index}
               img={Sort}
-              isIncrise={props.isSortIncrise}
+              isIncrease={props.isSortIncrease}
               isActive={props.indexSelectedTableHeader === index}
               clickEvent={props.sortHandler}
             />

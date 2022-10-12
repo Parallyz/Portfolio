@@ -1,18 +1,19 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useAppActions } from "../../../../hooks/actions";
-import { useDebounce } from "../../../../hooks/debounce";
-import { useAppSelector } from "../../../../hooks/redux";
 import { AlertType, User, userSortKeys } from "../../../../models/models";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   useLazyGetUsersQuery,
   useLazySearchUsersQuery,
 } from "../../../../redux/user/user.api";
-import { sortedArray } from "../../../../utils/sortArray";
+
+import ButtonPagination from "../../../table/pagination/ButtonPagintation";
 import Loader from "../../../loader/Loader";
-import ButtonPagintation from "../../../table/pagintation/ButtonPagintation";
 import Table from "../../../table/Table";
 import TableHeader from "../../../table/TableHeader";
 import UserList from "./UserList";
+import { sortedArray } from "../../../../utils/sortArray";
+import { useAppActions } from "../../../../hooks/actions";
+import { useAppSelector } from "../../../../hooks/redux";
+import { useDebounce } from "../../../../hooks/debounce";
 
 const UserTable = () => {
   const [perPage, setPerPage] = useState<number>(10);
@@ -127,7 +128,7 @@ const UserTable = () => {
     }
   }, [fetchUsersResponse.isError]);
 
-  const getPagintationInfoString = (): string => {
+  const getPaginationInfoString = (): string => {
     return `${(currentPage - 1) * perPage} - ${
       currentPage * perPage > total ? total : currentPage * perPage
     } of ${total}`;
@@ -188,7 +189,7 @@ const UserTable = () => {
             //data={userData}
             tableHeaders={Object.keys(userSortKeys)}
             //keyExtractor={({ id }) => id.toString()}
-            isSortIncrise={isSortOrderInc}
+            isSortIncrease={isSortOrderInc}
             indexSelectedTableHeader={selectedHeader}
             sortHandler={sortHandler}
             TableList={<UserList data={userData} />}
@@ -208,14 +209,14 @@ const UserTable = () => {
               />
             </div>
             <div className="pagination__pages">
-              <div>{getPagintationInfoString()}</div>
+              <div>{getPaginationInfoString()}</div>
               <div className="pagination__arrows">
-                <ButtonPagintation
+                <ButtonPagination
                   disabled={currentPage < 2}
                   onClick={() => changePageHandler(currentPage - 1)}
                   img={"./assets/img/admin/svg/arrow-left.svg"}
                 />
-                <ButtonPagintation
+                <ButtonPagination
                   disabled={currentPage * perPage >= total}
                   onClick={() => changePageHandler(currentPage + 1)}
                   img={"./assets/img/admin/svg/arrow-left.svg"}

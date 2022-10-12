@@ -4,7 +4,7 @@ interface TableHeaderTabProps {
   img?: string;
   name: string;
   isActive?: boolean;
-  isIncrise?: boolean;
+  isIncrease?: boolean;
 
   clickEvent?: (e: React.MouseEvent<HTMLButtonElement>, index: number) => void;
   index: number;
@@ -15,7 +15,7 @@ const TableHeaderTab = ({
   name,
   isActive,
   clickEvent,
-  isIncrise,
+  isIncrease,
   index,
 }: TableHeaderTabProps) => {
   return (
@@ -29,7 +29,7 @@ const TableHeaderTab = ({
           className="img--svg"
           style={{
             transform:
-              isIncrise && isActive ? "rotate(180deg)" : "rotate(0deg)",
+              isIncrease && isActive ? "rotate(180deg)" : "rotate(0deg)",
           }}
         />
         {name}
