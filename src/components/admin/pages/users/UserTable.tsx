@@ -50,13 +50,13 @@ const UserTable = () => {
       fetchUsers({ skip: (currentPage - 1) * perPage, limit: perPage });
 
     //fetchUsers({ skip: _skip, limit: _limit });
-  }, [debounceLimit, currentPage, userData]);
+  }, [debounceLimit, currentPage, searchUserField]);
 
   const searchUsersCallback = useCallback(() => {
     if (searchUserField) {
       fetchSearchUsers(searchUserField);
     }
-  }, [searchUserField]);
+  }, [searchUserField, debounceLimit, currentPage]);
 
   //? Users total count
   useEffect(() => {
@@ -80,11 +80,11 @@ const UserTable = () => {
       }
     }
   }, [
-    fetchSearchUsersResponse.isLoading,
     total,
     perPage,
-    fetchUsersResponse.isLoading,
     fetchUsersResponse.data?.users,
+    fetchSearchUsersResponse.data?.users,
+    searchUserField,
   ]);
 
   //? Users-load
@@ -102,11 +102,7 @@ const UserTable = () => {
     ) {
       setUserData(fetchSearchUsersResponse.data?.users);
     }
-  }, [
-    fetchSearchUsersResponse.isLoading,
-    fetchUsersResponse.isLoading,
-    fetchUsersResponse.data?.users,
-  ]);
+  }, [fetchUsersResponse.data?.users, fetchSearchUsersResponse.data?.users]);
 
   //? On page load
   useEffect(() => {
@@ -115,8 +111,9 @@ const UserTable = () => {
       setSelectedHeader(-1);
     }
 
-    if (debounceLimit && !searchUserField) {
+    if (!searchUserField) {
       loadUsersCallback();
+
       setSelectedHeader(-1);
     }
   }, [debounceLimit, currentPage, searchUserField]);
@@ -168,10 +165,9 @@ const UserTable = () => {
         setIsSortOrderInc(false);
         if (userData)
           setUserData(sortedArray(userData, userSortKeys[field], false));
-        //  sortData(field, false);
       } else {
         setIsSortOrderInc(true);
-        // sortData(field);
+
         setSelectedHeader(index);
         if (userData) setUserData(sortedArray(userData, userSortKeys[field]));
       }
@@ -181,50 +177,57 @@ const UserTable = () => {
   return (
     <div className="table">
       <TableHeader title={"Users"} />
-      {fetchUsersResponse.isLoading && !fetchUsersResponse.isError ? (
+      {fetchUsersResponse.isLoading || fetchSearchUsersResponse.isLoading ? (
         <Loader />
       ) : (
         <>
-          <Table
-            //data={userData}
-            tableHeaders={Object.keys(userSortKeys)}
-            //keyExtractor={({ id }) => id.toString()}
-            isSortIncrease={isSortOrderInc}
-            indexSelectedTableHeader={selectedHeader}
-            sortHandler={sortHandler}
-            TableList={<UserList data={userData} />}
-          />
-          <div className="table__pagination pagination">
-            <div className="pagination__limit">
-              Rows per page:
-              <input
-                type="number"
-                value={perPage}
-                max={"20"}
-                min={"1"}
-                disabled={currentPage * perPage >= total}
-                onChange={(e) => {
-                  perPageHandler(e);
-                }}
+          {!userData.length ? (
+            <p style={{ textAlign: "center" }}>Not Found</p>
+          ) : (
+            <>
+              <Table
+                //data={userData}
+
+                tableHeaders={Object.keys(userSortKeys)}
+                //keyExtractor={({ id }) => id.toString()}
+                isSortIncrease={isSortOrderInc}
+                indexSelectedTableHeader={selectedHeader}
+                sortHandler={sortHandler}
+                TableList={<UserList data={userData} />}
               />
-            </div>
-            <div className="pagination__pages">
-              <div>{getPaginationInfoString()}</div>
-              <div className="pagination__arrows">
-                <ButtonPagination
-                  disabled={currentPage < 2}
-                  onClick={() => changePageHandler(currentPage - 1)}
-                  img={"./assets/img/admin/svg/arrow-left.svg"}
-                />
-                <ButtonPagination
-                  disabled={currentPage * perPage >= total}
-                  onClick={() => changePageHandler(currentPage + 1)}
-                  img={"./assets/img/admin/svg/arrow-left.svg"}
-                  isMirroredImg={true}
-                />
+              <div className="table__pagination pagination">
+                <div className="pagination__limit">
+                  Rows per page:
+                  <input
+                    type="number"
+                    value={perPage}
+                    max={"20"}
+                    min={"1"}
+                    disabled={currentPage * perPage >= total}
+                    onChange={(e) => {
+                      perPageHandler(e);
+                    }}
+                  />
+                </div>
+                <div className="pagination__pages">
+                  <div>{getPaginationInfoString()}</div>
+                  <div className="pagination__arrows">
+                    <ButtonPagination
+                      disabled={currentPage < 2}
+                      onClick={() => changePageHandler(currentPage - 1)}
+                      img={"./assets/img/admin/svg/arrow-left.svg"}
+                    />
+                    <ButtonPagination
+                      disabled={currentPage * perPage >= total}
+                      onClick={() => changePageHandler(currentPage + 1)}
+                      img={"./assets/img/admin/svg/arrow-left.svg"}
+                      isMirroredImg={true}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
         </>
       )}
     </div>
