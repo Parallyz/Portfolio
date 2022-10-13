@@ -1,6 +1,7 @@
-import { URLs } from "../../models/path";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { User, UserDelete, Users } from "../../models/models";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+import { URLs } from "../../models/path";
 
 export interface UserQueryParams {
   skip?: number;
@@ -26,9 +27,9 @@ export const userApi = createApi({
         method: "DELETE",
       }),
     }),
-    searchUsers: build.query<Users, string>({
-      query: (search) => ({
-        url: `users/search?q=${search}`,
+    searchUsers: build.query<Users, UserQueryParams & { search: string }>({
+      query: ({ search, skip = 0, limit = 30 }) => ({
+        url: `users/search?q=${search}&limit=${limit}&skip=${skip}`,
       }),
     }),
     addUser: build.mutation<User, Omit<User, "id">>({

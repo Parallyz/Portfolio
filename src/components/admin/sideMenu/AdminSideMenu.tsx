@@ -11,7 +11,7 @@ export function AdminSideMenu({ children }: AdminSideMenuProps) {
 
   const list = adminRoutes.filter((x) => subNames.some((v) => v !== x.path));
 
-  const sublist = adminRoutes.filter((x) => subNames.some((v) => v === x.path));
+  const subList = adminRoutes.filter((x) => subNames.some((v) => v === x.path));
 
   return (
     <div className="admin">
@@ -28,7 +28,7 @@ export function AdminSideMenu({ children }: AdminSideMenuProps) {
           ))}
         </div>
         <div className="sidemenu__sub-list">
-          {sublist?.map((route) => (
+          {subList?.map((route) => (
             <SideMenuItem item={route} key={route.path} />
           ))}
         </div>

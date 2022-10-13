@@ -7,11 +7,14 @@ import { useAddUserMutation } from "../../../../redux/user/user.api";
 import { useAppActions } from "../../../../hooks/actions";
 import { useAppSelector } from "../../../../hooks/redux";
 
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-  { value: "blackberry", label: "Blackberry" },
+interface IOption {
+  value: string;
+  label: string;
+}
+
+const options: IOption[] = [
+  { value: "male", label: "Male" },
+  { value: "female", label: "Female" },
 ];
 
 const UserModalItem = () => {
@@ -24,7 +27,7 @@ const UserModalItem = () => {
   const [selectedFile, setSelectedFile] = useState<File>(null);
   const selectedFileBlock = useRef<HTMLDivElement>();
   const [preview, setPreview] = useState<string>("");
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedGender, setSelectedGender] = useState<IOption>(null);
 
   const addUserHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,6 +35,7 @@ const UserModalItem = () => {
       firstName: name,
       lastName,
       image: preview,
+      gender: selectedGender?.value || "male",
     };
 
     console.log(preview);
@@ -68,7 +72,7 @@ const UserModalItem = () => {
     setLastName("");
     setSelectedFile(null);
     setPreview("");
-    setSelectedOption(null);
+    setSelectedGender(null);
   };
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,8 +149,8 @@ const UserModalItem = () => {
             <label>Select option :</label>
 
             <InputSelect
-              value={selectedOption}
-              setValue={setSelectedOption}
+              value={selectedGender}
+              setValue={setSelectedGender}
               options={options}
             />
           </div>

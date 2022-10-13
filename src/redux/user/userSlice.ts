@@ -1,14 +1,11 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User } from "../../models/models";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface UserSliceState {
-  users: Array<User>;
   searchUserField: string;
   isUserModal: boolean;
 }
 
 const initialState: UserSliceState = {
-  users: [],
   searchUserField: "",
   isUserModal: false,
 };
@@ -17,9 +14,6 @@ const UsersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    initData(state, action: PayloadAction<Array<User>>) {
-      state.users = action.payload;
-    },
     setSearchField(state, action: PayloadAction<string>) {
       state.searchUserField = action.payload;
     },

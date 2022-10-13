@@ -20,10 +20,11 @@ const UserTable = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(0);
   const [userData, setUserData] = useState<User[]>([]);
-  const [selectedHeader, setSelectedHeader] = useState<number>(-1);
+  const [selectedSortingHeader, setSelectedSortingHeader] =
+    useState<number>(-1);
   const [isSortOrderInc, setIsSortOrderInc] = useState<boolean>(true);
 
-  const debounceLimit = useDebounce(perPage, 1000);
+  const debouncePerPage = useDebounce(perPage, 1000);
 
   const { searchUserField } = useAppSelector((state) => state.users);
 
@@ -46,77 +47,62 @@ const UserTable = () => {
     //  (currentPage - 1) * perPage > total
     //    ? total - _limit
     //    : (currentPage - 1) * perPage;
-    if (!searchUserField)
+    if (!searchUserField) {
       fetchUsers({ skip: (currentPage - 1) * perPage, limit: perPage });
-
-    //fetchUsers({ skip: _skip, limit: _limit });
-  }, [debounceLimit, currentPage, searchUserField]);
+    }
+  }, [debouncePerPage, currentPage, searchUserField]);
 
   const searchUsersCallback = useCallback(() => {
     if (searchUserField) {
-      fetchSearchUsers(searchUserField);
+      fetchSearchUsers({
+        search: searchUserField,
+        skip: (currentPage - 1) * perPage,
+        limit: perPage,
+      });
     }
-  }, [searchUserField, debounceLimit, currentPage]);
+  }, [searchUserField, debouncePerPage, currentPage]);
 
-  //? Users total count
+  //? Set current page on input change
   useEffect(() => {
-    if (
-      !fetchUsersResponse.isLoading &&
-      fetchUsersResponse.data?.users &&
-      !searchUserField
-    ) {
-      setTotal(fetchUsersResponse.data?.total);
-      setSelectedHeader(-1);
-    }
-    if (
-      !fetchSearchUsersResponse.isLoading &&
-      fetchSearchUsersResponse.data?.users
-    ) {
-      setTotal(fetchSearchUsersResponse.data?.users.length);
-      setSelectedHeader(-1);
+    setCurrentPage(1);
+  }, [searchUserField, debouncePerPage]);
+
+  //? Search Users
+  useEffect(() => {
+    if (fetchSearchUsersResponse.data?.users && searchUserField) {
+      setUserData(fetchSearchUsersResponse.data?.users);
+      setTotal(fetchSearchUsersResponse.data?.total);
+      setSelectedSortingHeader(-1);
 
       if (total < perPage) {
         setPerPage(total);
+      } else if (total > perPage && currentPage === 1) {
+        setPerPage(10);
       }
     }
-  }, [
-    total,
-    perPage,
-    fetchUsersResponse.data?.users,
-    fetchSearchUsersResponse.data?.users,
-    searchUserField,
-  ]);
+  }, [fetchSearchUsersResponse.data?.users, total]);
 
   //? Users-load
   useEffect(() => {
-    if (
-      !fetchUsersResponse.isLoading &&
-      fetchUsersResponse.data?.users &&
-      !searchUserField
-    ) {
+    if (fetchUsersResponse.data?.users && !searchUserField) {
       setUserData(fetchUsersResponse.data?.users);
+
+      setTotal(fetchUsersResponse.data?.total);
+
+      setSelectedSortingHeader(-1);
     }
-    if (
-      !fetchSearchUsersResponse.isLoading &&
-      fetchSearchUsersResponse.data?.users
-    ) {
-      setUserData(fetchSearchUsersResponse.data?.users);
-    }
-  }, [fetchUsersResponse.data?.users, fetchSearchUsersResponse.data?.users]);
+  }, [fetchUsersResponse.data?.users, total]);
 
   //? On page load
   useEffect(() => {
     if (searchUserField) {
       searchUsersCallback();
-      setSelectedHeader(-1);
     }
 
     if (!searchUserField) {
       loadUsersCallback();
-
-      setSelectedHeader(-1);
     }
-  }, [debounceLimit, currentPage, searchUserField]);
+  }, [debouncePerPage, currentPage, searchUserField]);
 
   //? Error
   useEffect(() => {
@@ -125,11 +111,11 @@ const UserTable = () => {
     }
   }, [fetchUsersResponse.isError]);
 
-  const getPaginationInfoString = (): string => {
+  const getPaginationInfoString = useCallback((): string => {
     return `${(currentPage - 1) * perPage} - ${
       currentPage * perPage > total ? total : currentPage * perPage
     } of ${total}`;
-  };
+  }, [total, perPage, currentPage]);
 
   const perPageHandler = (e: React.FormEvent<HTMLInputElement>) => {
     let parsed = parseInt(e?.currentTarget?.value);
@@ -161,14 +147,14 @@ const UserTable = () => {
     e.preventDefault();
     const field: string = e.currentTarget.innerText;
     if (userSortKeys[field]) {
-      if (selectedHeader === index && isSortOrderInc) {
+      if (selectedSortingHeader === index && isSortOrderInc) {
         setIsSortOrderInc(false);
         if (userData)
           setUserData(sortedArray(userData, userSortKeys[field], false));
       } else {
         setIsSortOrderInc(true);
 
-        setSelectedHeader(index);
+        setSelectedSortingHeader(index);
         if (userData) setUserData(sortedArray(userData, userSortKeys[field]));
       }
     }
@@ -191,7 +177,7 @@ const UserTable = () => {
                 tableHeaders={Object.keys(userSortKeys)}
                 //keyExtractor={({ id }) => id.toString()}
                 isSortIncrease={isSortOrderInc}
-                indexSelectedTableHeader={selectedHeader}
+                indexSelectedTableHeader={selectedSortingHeader}
                 sortHandler={sortHandler}
                 TableList={<UserList data={userData} />}
               />
@@ -203,7 +189,7 @@ const UserTable = () => {
                     value={perPage}
                     max={"20"}
                     min={"1"}
-                    disabled={currentPage * perPage >= total}
+                    disabled={perPage >= total}
                     onChange={(e) => {
                       perPageHandler(e);
                     }}
