@@ -3,14 +3,12 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AdminSideMenu } from "../admin/sideMenu/AdminSideMenu";
 import ErrorPage from "../error/ErrorPage";
 import React from "react";
-import { adminPath } from "../../models/models";
+import { adminPath } from "../../models/utils.model";
 import { adminRoutes } from "./Router";
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
-  
-
       <AdminSideMenu>
         <Routes>
           <Route path="/" element={<Navigate to="/overview" replace />} />

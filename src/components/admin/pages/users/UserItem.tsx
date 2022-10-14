@@ -1,6 +1,7 @@
-import { AlertType, User } from "../../../../models/models";
 import React, { useEffect } from "react";
 
+import { AlertType } from "../../../../models/utils.model";
+import { User } from "../../../../models/user.model";
 import { useAppActions } from "../../../../hooks/actions";
 import { useLazyDeleteUserQuery } from "../../../../redux/user/user.api";
 
@@ -11,6 +12,7 @@ interface UserItemProps {
 const UserItem = ({ item }: UserItemProps) => {
   const [deleteUser, { isError, isLoading, data: response }] =
     useLazyDeleteUserQuery();
+  const { setStateUserModal, setEditUserId } = useAppActions();
 
   const { setStateAlert: showAlert } = useAppActions();
 
@@ -30,8 +32,13 @@ const UserItem = ({ item }: UserItemProps) => {
     }
   }, [isLoading]);
 
-  const deleteHandler = (id: number): void => {
-    deleteUser(id);
+  const deleteHandler = (): void => {
+    deleteUser(item.id);
+  };
+
+  const updateHandler = (): void => {
+    setEditUserId(item?.id);
+    setStateUserModal(true);
   };
 
   const getDate = () => {
@@ -69,7 +76,7 @@ const UserItem = ({ item }: UserItemProps) => {
         </div>
       </div>
       <div className="item__btn">
-        <button>
+        <button onClick={() => updateHandler()}>
           <img
             className="img--svg img--svg--yellow"
             src="./assets/img/admin/svg/edit.svg"
@@ -78,7 +85,7 @@ const UserItem = ({ item }: UserItemProps) => {
         </button>
       </div>
       <div className="item__btn">
-        <button onClick={() => deleteHandler(item.id)}>
+        <button onClick={() => deleteHandler()}>
           <img
             className="img--svg img--svg--red"
             src="./assets/img/admin/svg/bucket.svg"

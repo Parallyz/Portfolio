@@ -3,7 +3,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import Sort from "../../assets/img/admin/svg/sort.svg";
 import TableHeaderTab from "./TableHeaderTab";
 import UserItem from "../admin/pages/users/UserItem";
-import { userSortKeys } from "../../models/models";
+import { userSortKeys } from "../../models/utils.model";
 
 //type TableItemProps<T> = {
 //  item: T;

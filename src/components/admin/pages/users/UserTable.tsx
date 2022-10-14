@@ -1,4 +1,4 @@
-import { AlertType, User, userSortKeys } from "../../../../models/models";
+import { AlertType, userSortKeys } from "../../../../models/utils.model";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   useLazyGetUsersQuery,
@@ -9,6 +9,7 @@ import ButtonPagination from "../../../table/pagination/ButtonPagintation";
 import Loader from "../../../loader/Loader";
 import Table from "../../../table/Table";
 import TableHeader from "../../../table/TableHeader";
+import { User } from "../../../../models/user.model";
 import UserList from "./UserList";
 import { sortedArray } from "../../../../utils/sortArray";
 import { useAppActions } from "../../../../hooks/actions";
@@ -36,8 +37,6 @@ const UserTable = () => {
   const [fetchUsers, fetchUsersResponse] = useLazyGetUsersQuery();
 
   const loadUsersCallback = useCallback(() => {
-    console.log("Callback");
-
     //const _limit =
     //  (currentPage - 1) * perPage > total
     //    ? total - (currentPage - 1) * perPage
@@ -132,7 +131,7 @@ const UserTable = () => {
     }
   };
 
-  const changePageHandler = (newPage: number) => {
+  const changePageHandler = (newPage: number): void => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",

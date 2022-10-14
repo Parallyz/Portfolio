@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
-import { ToastContainer, toast, ToastOptions } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
+
+import React, { useEffect } from "react";
+import { ToastContainer, ToastOptions, toast } from "react-toastify";
+
+import { AlertType } from "../../models/utils.model";
 import { useAppActions } from "../../hooks/actions";
 import { useAppSelector } from "../../hooks/redux";
-import { AlertType } from "../../models/models";
 
 interface AlertProps {
   delayToClose?: number;
@@ -13,7 +14,7 @@ interface AlertProps {
 const Alert = ({ delayToClose = 5000 }: AlertProps) => {
   const { alert } = useAppSelector((state) => state.app);
   const { setStateAlert } = useAppActions();
-  
+
   const toastParams: ToastOptions = {
     autoClose: delayToClose,
     theme: "colored",

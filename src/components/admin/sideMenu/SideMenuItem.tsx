@@ -1,7 +1,6 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
-
-import { adminPath } from "../../../models/models";
+import React from "react";
+import { adminPath } from "../../../models/utils.model";
 
 type SideMenuItemProps = {
   item: adminPath;

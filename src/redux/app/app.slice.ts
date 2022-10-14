@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AlertType } from "../../models/models";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
+import { AlertType } from "../../models/utils.model";
 
 type AlertObjType = {
   text: string;
