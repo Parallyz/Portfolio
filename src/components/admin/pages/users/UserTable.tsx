@@ -23,13 +23,14 @@ const UserTable = () => {
   const [userData, setUserData] = useState<User[]>([]);
   const [selectedSortingHeader, setSelectedSortingHeader] =
     useState<number>(-1);
-  const [isSortOrderInc, setIsSortOrderInc] = useState<boolean>(true);
+  const [isSortOrderByIncrement, setIsSortOrderByIncrement] =
+    useState<boolean>(true);
 
   const debouncePerPage = useDebounce(perPage, 1000);
 
   const { searchUserField } = useAppSelector((state) => state.users);
 
-  const { setStateAlert: showAlert } = useAppActions();
+  const { setStateAlert } = useAppActions();
 
   const [fetchSearchUsers, fetchSearchUsersResponse] =
     useLazySearchUsersQuery();
@@ -37,28 +38,21 @@ const UserTable = () => {
   const [fetchUsers, fetchUsersResponse] = useLazyGetUsersQuery();
 
   const loadUsersCallback = useCallback(() => {
-    //const _limit =
-    //  (currentPage - 1) * perPage > total
-    //    ? total - (currentPage - 1) * perPage
-    //    : perPage;
-
-    //const _skip =
-    //  (currentPage - 1) * perPage > total
-    //    ? total - _limit
-    //    : (currentPage - 1) * perPage;
-    if (!searchUserField) {
-      fetchUsers({ skip: (currentPage - 1) * perPage, limit: perPage });
+    if (searchUserField) {
+      return;
     }
+    fetchUsers({ skip: (currentPage - 1) * perPage, limit: perPage });
   }, [debouncePerPage, currentPage, searchUserField]);
 
   const searchUsersCallback = useCallback(() => {
-    if (searchUserField) {
-      fetchSearchUsers({
-        search: searchUserField,
-        skip: (currentPage - 1) * perPage,
-        limit: perPage,
-      });
+    if (!searchUserField) {
+      return;
     }
+    fetchSearchUsers({
+      search: searchUserField,
+      skip: (currentPage - 1) * perPage,
+      limit: perPage,
+    });
   }, [searchUserField, debouncePerPage, currentPage]);
 
   //? Set current page on input change
@@ -68,28 +62,31 @@ const UserTable = () => {
 
   //? Search Users
   useEffect(() => {
-    if (fetchSearchUsersResponse.data?.users && searchUserField) {
-      setUserData(fetchSearchUsersResponse.data?.users);
-      setTotal(fetchSearchUsersResponse.data?.total);
-      setSelectedSortingHeader(-1);
+    if (!fetchSearchUsersResponse.data?.users || !searchUserField) return;
 
-      if (total < perPage) {
-        setPerPage(total);
-      } else if (total > perPage && currentPage === 1) {
-        setPerPage(10);
-      }
+    resetSortTableHeader();
+
+    initUserTable(
+      fetchSearchUsersResponse.data?.users,
+      fetchSearchUsersResponse.data?.total
+    );
+
+    if (total < perPage) {
+      setPerPage(total);
+    } else if (total > perPage && currentPage === 1) {
+      setPerPage(10);
     }
   }, [fetchSearchUsersResponse.data?.users, total]);
 
   //? Users-load
   useEffect(() => {
-    if (fetchUsersResponse.data?.users && !searchUserField) {
-      setUserData(fetchUsersResponse.data?.users);
+    if (!fetchUsersResponse.data?.users || searchUserField) return;
 
-      setTotal(fetchUsersResponse.data?.total);
-
-      setSelectedSortingHeader(-1);
-    }
+    initUserTable(
+      fetchUsersResponse.data?.users,
+      fetchUsersResponse.data?.total
+    );
+    resetSortTableHeader();
   }, [fetchUsersResponse.data?.users, total]);
 
   //? On page load
@@ -106,56 +103,73 @@ const UserTable = () => {
   //? Error
   useEffect(() => {
     if (fetchUsersResponse.isError) {
-      showAlert({ text: "Error on load", type: AlertType.Error, isShow: true });
+      setStateAlert({
+        text: "Error on load",
+        type: AlertType.Error,
+        isShow: true,
+      });
     }
   }, [fetchUsersResponse.isError]);
 
-  const getPaginationInfoString = useCallback((): string => {
+  const getPaginationString = useCallback((): string => {
     return `${(currentPage - 1) * perPage} - ${
       currentPage * perPage > total ? total : currentPage * perPage
     } of ${total}`;
   }, [total, perPage, currentPage]);
 
+  const initUserTable = (userList: User[], total: number) => {
+    setUserData(userList);
+
+    setTotal(total);
+  };
+
   const perPageHandler = (e: React.FormEvent<HTMLInputElement>) => {
     let parsed = parseInt(e?.currentTarget?.value);
-    if (!isNaN(parsed) && parsed > 0) {
-      let { min, max } = e.currentTarget;
-      if (!isNaN(parseInt(max)) && parsed > parseInt(max)) {
-        setPerPage(parseInt(max));
-      } else if (!isNaN(parseInt(min)) && parsed < parseInt(min)) {
-        setPerPage(parseInt(min));
-      } else {
-        setPerPage(parsed);
-      }
-      setCurrentPage(1);
+    if (isNaN(parsed) || parsed < 0) return;
+
+    let { min, max } = e.currentTarget;
+
+    if (parsed > parseInt(max)) {
+      setPerPage(parseInt(max));
+    } else if (parsed < parseInt(min)) {
+      setPerPage(parseInt(min));
+    } else {
+      setPerPage(parsed);
     }
+    setCurrentPage(1);
   };
 
   const changePageHandler = (newPage: number): void => {
+    scrollToTop();
+    setCurrentPage(newPage);
+  };
+
+  const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-    setCurrentPage(newPage);
   };
 
+  const resetSortTableHeader = () => {
+    setSelectedSortingHeader(-1);
+  };
   const sortHandler = (
     e: React.MouseEvent<HTMLButtonElement>,
     index: number
   ) => {
     e.preventDefault();
     const field: string = e.currentTarget.innerText;
-    if (userSortKeys[field]) {
-      if (selectedSortingHeader === index && isSortOrderInc) {
-        setIsSortOrderInc(false);
-        if (userData)
-          setUserData(sortedArray(userData, userSortKeys[field], false));
-      } else {
-        setIsSortOrderInc(true);
+    if (!userSortKeys[field]) return;
+    if (selectedSortingHeader === index && isSortOrderByIncrement) {
+      setIsSortOrderByIncrement(false);
 
-        setSelectedSortingHeader(index);
-        if (userData) setUserData(sortedArray(userData, userSortKeys[field]));
-      }
+      if (userData)
+        setUserData(sortedArray(userData, userSortKeys[field], false));
+    } else {
+      setIsSortOrderByIncrement(true);
+      setSelectedSortingHeader(index);
+      if (userData) setUserData(sortedArray(userData, userSortKeys[field]));
     }
   };
 
@@ -171,11 +185,9 @@ const UserTable = () => {
           ) : (
             <>
               <Table
-                //data={userData}
-
                 tableHeaders={Object.keys(userSortKeys)}
                 //keyExtractor={({ id }) => id.toString()}
-                isSortIncrease={isSortOrderInc}
+                isSortIncrease={isSortOrderByIncrement}
                 indexSelectedTableHeader={selectedSortingHeader}
                 sortHandler={sortHandler}
                 TableList={<UserList data={userData} />}
@@ -195,7 +207,7 @@ const UserTable = () => {
                   />
                 </div>
                 <div className="pagination__pages">
-                  <div>{getPaginationInfoString()}</div>
+                  <div>{getPaginationString()}</div>
                   <div className="pagination__arrows">
                     <ButtonPagination
                       disabled={currentPage < 2}
